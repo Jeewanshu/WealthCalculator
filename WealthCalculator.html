@@ -21,6 +21,7 @@
             --warning-color: #f9c74f;
             --danger-color: #e63946;
             --current-color: #7209b7;
+            --account-color: #ff6b6b;
             --light-color: #f8f9fa;
             --dark-color: #212529;
             --gray-color: #6c757d;
@@ -273,6 +274,55 @@
             margin-left: 5px;
         }
 
+        /* Optional Fields Toggle */
+        .optional-fields-toggle {
+            margin: 25px 0;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .toggle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .toggle-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .toggle-title i {
+            color: var(--account-color);
+        }
+
+        .toggle-arrow {
+            transition: var(--transition);
+            color: var(--gray-color);
+        }
+
+        .toggle-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .optional-fields {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .optional-fields.show {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+
         /* Buttons */
         .button-group {
             display: flex;
@@ -390,11 +440,20 @@
             border-left: 5px solid var(--current-color);
         }
 
+        .result-card.account-details {
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            border-left: 5px solid var(--account-color);
+        }
+
         .result-card.current-result .result-icon {
             background: rgba(255, 255, 255, 0.2);
         }
 
         .result-card.main-result .result-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .result-card.account-details .result-icon {
             background: rgba(255, 255, 255, 0.2);
         }
 
@@ -408,6 +467,10 @@
             justify-content: center;
             font-size: 1.8rem;
             color: var(--primary-color);
+        }
+
+        .result-card.account-details .result-icon {
+            color: var(--account-color);
         }
 
         .result-details h3 {
@@ -462,6 +525,36 @@
 
         .result-value {
             font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Account Info Display */
+        .account-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .account-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border-left: 3px solid var(--account-color);
+        }
+
+        .account-label {
+            font-weight: 500;
+            color: var(--account-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .account-value {
             font-weight: 600;
             color: var(--dark-color);
         }
@@ -525,6 +618,118 @@
 
         .current-value-section h2 i {
             color: var(--current-color);
+        }
+
+        /* Accounts Summary Section */
+        .accounts-summary-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border-left: 5px solid var(--account-color);
+        }
+
+        .accounts-summary-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--account-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 15px;
+        }
+
+        .accounts-summary-section h2 i {
+            color: var(--account-color);
+        }
+
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .account-summary-card {
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid var(--account-color);
+            transition: var(--transition);
+        }
+
+        .account-summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .account-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--account-color);
+        }
+
+        .account-number {
+            font-family: monospace;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        .account-balance {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--account-color);
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .account-details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .account-detail {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .detail-label {
+            color: var(--gray-color);
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .no-accounts {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-color);
+        }
+
+        .no-accounts i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
         }
 
         /* Savings Section */
@@ -608,6 +813,20 @@
         .savings-details h4 {
             font-size: 1.1rem;
             margin-bottom: 5px;
+        }
+
+        .savings-account-info {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .savings-account-info span {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
         }
 
         .savings-date {
@@ -765,7 +984,7 @@
                 <i class="fas fa-calculator"></i>
                 <h1>Advanced Compound Interest Calculator</h1>
             </div>
-            <p class="subtitle">Four calculation modes including Current Value Calculator. All amounts in Indian Rupees (₹)</p>
+            <p class="subtitle">Four calculation modes including Current Value Calculator with Account Management</p>
         </header>
 
         <div class="calculator-wrapper">
@@ -921,6 +1140,56 @@
                         </select>
                     </div>
 
+                    <!-- Optional Account Information -->
+                    <div class="optional-fields-toggle">
+                        <div class="toggle-header" id="accountToggle">
+                            <div class="toggle-title">
+                                <i class="fas fa-university"></i>
+                                <span>Add Account Information (Optional)</span>
+                            </div>
+                            <div class="toggle-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="optional-fields" id="accountFields">
+                            <div class="form-group">
+                                <label for="account_number">
+                                    <i class="fas fa-credit-card"></i> Account Number
+                                </label>
+                                <input type="text" id="account_number" name="account_number" 
+                                       placeholder="Enter account number (optional)">
+                                <div class="input-hint">Leave blank if not applicable</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="account_type">
+                                    <i class="fas fa-landmark"></i> Account Type
+                                </label>
+                                <select id="account_type" name="account_type">
+                                    <option value="">Select Account Type (Optional)</option>
+                                    <option value="savings">Savings Account</option>
+                                    <option value="current">Current Account</option>
+                                    <option value="fixed_deposit">Fixed Deposit</option>
+                                    <option value="recurring_deposit">Recurring Deposit</option>
+                                    <option value="ppf">Public Provident Fund (PPF)</option>
+                                    <option value="nps">National Pension System (NPS)</option>
+                                    <option value="mutual_fund">Mutual Fund</option>
+                                    <option value="stocks">Stocks/Equity</option>
+                                    <option value="bonds">Bonds</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bank_name">
+                                    <i class="fas fa-building"></i> Bank/Institution Name
+                                </label>
+                                <input type="text" id="bank_name" name="bank_name" 
+                                       placeholder="Enter bank or institution name (optional)">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="button-group">
                         <button type="button" class="btn calculate-btn" id="calculateBtn">
                             <i class="fas fa-calculator"></i> Calculate Now
@@ -967,6 +1236,19 @@
                                 <h3>Current Value (Today)</h3>
                                 <div class="amount" id="currentAmount">
                                     <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Information Section (If provided) -->
+                        <div class="result-card account-details" id="accountDetailsCard" style="display: none;">
+                            <div class="result-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3>Account Information</h3>
+                                <div class="account-info" id="accountInfo">
+                                    <!-- Account details will be populated here -->
                                 </div>
                             </div>
                         </div>
@@ -1054,6 +1336,28 @@
             </div>
         </div>
 
+        <!-- Accounts Summary Section -->
+        <div class="accounts-summary-section">
+            <h2><i class="fas fa-university"></i> Accounts Summary</h2>
+            <div class="accounts-grid" id="accountsGrid">
+                <div class="no-accounts" id="noAccountsMessage">
+                    <i class="fas fa-university"></i>
+                    <p>No accounts added yet. Save a calculation with account information to see it here.</p>
+                </div>
+            </div>
+            
+            <div class="calculation-summary">
+                <div class="summary-title">
+                    <i class="fas fa-lightbulb"></i> Account Management
+                </div>
+                <div class="summary-text">
+                    Track your investments across different accounts. Each saved calculation with account information 
+                    will appear here, organized by account type. You can track multiple investments in the same account 
+                    and see the total balance for each account type.
+                </div>
+            </div>
+        </div>
+
         <!-- Current Value Information Section -->
         <div class="current-value-section">
             <h2><i class="fas fa-chart-line"></i> Current Value Information</h2>
@@ -1133,9 +1437,9 @@
                    4. Find Current Value</p>
             </div>
             <div class="info-card">
-                <i class="fas fa-rupee-sign"></i>
-                <h3>Indian Rupees</h3>
-                <p>All calculations are displayed in Indian Rupees (₹) with proper formatting for Indian numbering system.</p>
+                <i class="fas fa-university"></i>
+                <h3>Account Management</h3>
+                <p>Add optional account information to track investments across different accounts and account types.</p>
             </div>
             <div class="info-card">
                 <i class="fas fa-save"></i>
@@ -1146,7 +1450,7 @@
     </div>
 
     <footer>
-        <p>Advanced Compound Interest Calculator with Four Calculation Modes</p>
+        <p>Advanced Compound Interest Calculator with Account Management</p>
         <p class="tech-stack">
             <span class="tech-item">HTML5</span>
             <span class="tech-item">CSS3</span>
@@ -1179,6 +1483,13 @@
         const principalCurrentInput = document.getElementById('principal_current');
         const maturityAmountCurrentInput = document.getElementById('maturity_amount_current');
         
+        // Account information fields
+        const accountNumberInput = document.getElementById('account_number');
+        const accountTypeSelect = document.getElementById('account_type');
+        const bankNameInput = document.getElementById('bank_name');
+        const accountToggle = document.getElementById('accountToggle');
+        const accountFields = document.getElementById('accountFields');
+        
         // Common fields
         const startDateInput = document.getElementById('start_date');
         const maturityDateInput = document.getElementById('maturity_date');
@@ -1208,12 +1519,20 @@
         const calculationSummary = document.getElementById('calculationSummary');
         const mainResultCard = document.getElementById('mainResultCard');
         
+        // Account Information Elements
+        const accountDetailsCard = document.getElementById('accountDetailsCard');
+        const accountInfoEl = document.getElementById('accountInfo');
+        
         // Current Value Elements
         const currentValueCard = document.getElementById('currentValueCard');
         const currentAmountEl = document.getElementById('currentAmount');
         const progressSection = document.getElementById('progressSection');
         const progressPercentage = document.getElementById('progressPercentage');
         const progressFill = document.getElementById('progressFill');
+        
+        // Accounts Summary Elements
+        const accountsGrid = document.getElementById('accountsGrid');
+        const noAccountsMessage = document.getElementById('noAccountsMessage');
         
         // Current Value Information Elements
         const todayDateEl = document.getElementById('todayDate');
@@ -1237,10 +1556,39 @@
         // Update today's date display
         todayDateEl.textContent = formatDisplayDate(today);
         
-        // Initialize savings from localStorage
+        // Initialize savings and accounts from localStorage
         let savings = JSON.parse(localStorage.getItem('compoundInterestSavingsINR')) || [];
+        let accounts = JSON.parse(localStorage.getItem('savingsAccounts')) || [];
         let currentCalculation = null;
         let currentMode = 'amount'; // Default mode
+        
+        // Account type display names
+        const accountTypeNames = {
+            'savings': 'Savings Account',
+            'current': 'Current Account',
+            'fixed_deposit': 'Fixed Deposit',
+            'recurring_deposit': 'Recurring Deposit',
+            'ppf': 'Public Provident Fund (PPF)',
+            'nps': 'National Pension System (NPS)',
+            'mutual_fund': 'Mutual Fund',
+            'stocks': 'Stocks/Equity',
+            'bonds': 'Bonds',
+            'other': 'Other'
+        };
+        
+        // Account type icons
+        const accountTypeIcons = {
+            'savings': 'fas fa-piggy-bank',
+            'current': 'fas fa-landmark',
+            'fixed_deposit': 'fas fa-lock',
+            'recurring_deposit': 'fas fa-calendar-alt',
+            'ppf': 'fas fa-shield-alt',
+            'nps': 'fas fa-user-tie',
+            'mutual_fund': 'fas fa-chart-pie',
+            'stocks': 'fas fa-chart-line',
+            'bonds': 'fas fa-file-contract',
+            'other': 'fas fa-wallet'
+        };
         
         // Mode descriptions
         const modeDescriptions = {
@@ -1274,8 +1622,9 @@
             current: 'fas fa-chart-line'
         };
         
-        // Update savings display
+        // Update savings and accounts display
         updateSavingsDisplay();
+        updateAccountsDisplay();
         
         // Event Listeners
         modeButtons.forEach(button => {
@@ -1325,6 +1674,13 @@
             });
         });
         
+        // Toggle account fields
+        accountToggle.addEventListener('click', () => {
+            const arrow = accountToggle.querySelector('.toggle-arrow');
+            arrow.classList.toggle('open');
+            accountFields.classList.toggle('show');
+        });
+        
         calculateBtn.addEventListener('click', calculateInterest);
         resetBtn.addEventListener('click', resetForm);
         saveAmountBtn.addEventListener('click', saveCurrentAmount);
@@ -1370,6 +1726,7 @@
             resultsContent.style.display = 'none';
             placeholderMessage.style.display = 'flex';
             errorMessage.style.display = 'none';
+            accountDetailsCard.style.display = 'none';
             currentCalculation = null;
             saveAmountBtn.disabled = true;
         }
@@ -1436,6 +1793,20 @@
                 result.compoundingFrequency = getFrequencyName(compoundingFrequency);
                 result.calculatedAt = new Date().toLocaleString();
                 result.mode = currentMode;
+                
+                // Add account information if provided
+                const accountNumber = accountNumberInput.value.trim();
+                const accountType = accountTypeSelect.value;
+                const bankName = bankNameInput.value.trim();
+                
+                if (accountNumber || accountType) {
+                    result.accountInfo = {
+                        accountNumber: accountNumber,
+                        accountType: accountType,
+                        bankName: bankName,
+                        accountTypeName: accountTypeNames[accountType] || accountType
+                    };
+                }
                 
                 // Add time information for current value mode
                 if (currentMode === 'current') {
@@ -1668,6 +2039,14 @@
                 `;
             }
             
+            // Show account information if provided
+            if (data.accountInfo && (data.accountInfo.accountNumber || data.accountInfo.accountType)) {
+                accountDetailsCard.style.display = 'flex';
+                updateAccountInfo(data.accountInfo);
+            } else {
+                accountDetailsCard.style.display = 'none';
+            }
+            
             // Common result updates
             investmentPeriodEl.textContent = `${data.years} years`;
             compoundingResultEl.textContent = data.compoundingFrequency;
@@ -1680,6 +2059,45 @@
             
             // Enable save button
             saveAmountBtn.disabled = false;
+        }
+        
+        function updateAccountInfo(accountInfo) {
+            let html = '';
+            
+            if (accountInfo.accountNumber) {
+                html += `
+                    <div class="account-field">
+                        <div class="account-label">
+                            <i class="fas fa-credit-card"></i> Account Number
+                        </div>
+                        <div class="account-value">${accountInfo.accountNumber}</div>
+                    </div>
+                `;
+            }
+            
+            if (accountInfo.accountType) {
+                html += `
+                    <div class="account-field">
+                        <div class="account-label">
+                            <i class="fas fa-landmark"></i> Account Type
+                        </div>
+                        <div class="account-value">${accountInfo.accountTypeName || accountInfo.accountType}</div>
+                    </div>
+                `;
+            }
+            
+            if (accountInfo.bankName) {
+                html += `
+                    <div class="account-field">
+                        <div class="account-label">
+                            <i class="fas fa-building"></i> Bank/Institution
+                        </div>
+                        <div class="account-value">${accountInfo.bankName}</div>
+                    </div>
+                `;
+            }
+            
+            accountInfoEl.innerHTML = html;
         }
         
         function updateCurrentValueInfo(elapsedDays, remainingDays, totalDays, result) {
@@ -1750,26 +2168,154 @@
                 description = `${resultTitles[currentCalculation.mode]}: ${formatDisplayDate(currentCalculation.startDate)} to ${formatDisplayDate(currentCalculation.maturityDate)}`;
             }
             
+            // Get account information
+            const accountInfo = currentCalculation.accountInfo || {};
+            
             // Create savings item
             const savingsItem = {
                 id: Date.now(),
                 amount: amountToSave,
                 description: description,
                 date: new Date().toLocaleDateString('en-IN'),
-                calculationDetails: currentCalculation
+                calculationDetails: currentCalculation,
+                accountInfo: accountInfo
             };
             
             // Add to savings array
             savings.push(savingsItem);
             
+            // Update accounts if account information is provided
+            if (accountInfo.accountNumber || accountInfo.accountType) {
+                updateAccounts(savingsItem);
+            }
+            
             // Save to localStorage
             localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
             
-            // Update display
+            // Update displays
             updateSavingsDisplay();
+            updateAccountsDisplay();
             
             // Show confirmation
             alert(`Successfully added ₹${formatIndianNumber(amountToSave)} to your savings!`);
+        }
+        
+        function updateAccounts(savingsItem) {
+            const accountInfo = savingsItem.accountInfo;
+            if (!accountInfo) return;
+            
+            // Find existing account or create new one
+            let accountIndex = accounts.findIndex(acc => 
+                acc.accountNumber === accountInfo.accountNumber && 
+                acc.accountType === accountInfo.accountType
+            );
+            
+            if (accountIndex === -1) {
+                // Create new account
+                const newAccount = {
+                    id: Date.now(),
+                    accountNumber: accountInfo.accountNumber || 'N/A',
+                    accountType: accountInfo.accountType || 'other',
+                    bankName: accountInfo.bankName || '',
+                    totalBalance: savingsItem.amount,
+                    investments: [savingsItem],
+                    lastUpdated: new Date().toISOString()
+                };
+                accounts.push(newAccount);
+            } else {
+                // Update existing account
+                accounts[accountIndex].totalBalance += savingsItem.amount;
+                accounts[accountIndex].investments.push(savingsItem);
+                accounts[accountIndex].lastUpdated = new Date().toISOString();
+            }
+            
+            // Save accounts to localStorage
+            localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+        }
+        
+        function updateAccountsDisplay() {
+            if (accounts.length === 0) {
+                noAccountsMessage.style.display = 'block';
+                accountsGrid.innerHTML = '';
+                accountsGrid.appendChild(noAccountsMessage);
+            } else {
+                noAccountsMessage.style.display = 'none';
+                
+                // Clear and rebuild accounts grid
+                accountsGrid.innerHTML = '';
+                
+                // Add each account card
+                accounts.forEach(account => {
+                    const accountCard = document.createElement('div');
+                    accountCard.className = 'account-summary-card fade-in';
+                    
+                    const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
+                    const accountIcon = accountTypeIcons[account.accountType] || 'fas fa-wallet';
+                    
+                    accountCard.innerHTML = `
+                        <div class="account-header">
+                            <div class="account-type">
+                                <i class="${accountIcon}"></i>
+                                <span>${accountTypeName}</span>
+                            </div>
+                            <div class="account-number">${account.accountNumber}</div>
+                        </div>
+                        
+                        <div class="account-balance">
+                            <span class="rupee-symbol">₹</span>${formatIndianNumber(account.totalBalance)}
+                        </div>
+                        
+                        <div class="account-details-list">
+                            <div class="account-detail">
+                                <span class="detail-label">Bank/Institution:</span>
+                                <span class="detail-value">${account.bankName || 'Not specified'}</span>
+                            </div>
+                            <div class="account-detail">
+                                <span class="detail-label">Total Investments:</span>
+                                <span class="detail-value">${account.investments.length}</span>
+                            </div>
+                            <div class="account-detail">
+                                <span class="detail-label">Last Updated:</span>
+                                <span class="detail-value">${formatDisplayDate(new Date(account.lastUpdated))}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event to view account details
+                    accountCard.addEventListener('click', () => {
+                        viewAccountDetails(account);
+                    });
+                    
+                    accountsGrid.appendChild(accountCard);
+                });
+            }
+        }
+        
+        function viewAccountDetails(account) {
+            // Create a modal or detailed view for account
+            const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
+            
+            let detailsHtml = `
+                <h3>${accountTypeName}</h3>
+                <p><strong>Account Number:</strong> ${account.accountNumber}</p>
+                <p><strong>Bank/Institution:</strong> ${account.bankName || 'Not specified'}</p>
+                <p><strong>Total Balance:</strong> ₹${formatIndianNumber(account.totalBalance)}</p>
+                <p><strong>Number of Investments:</strong> ${account.investments.length}</p>
+                <hr>
+                <h4>Investment Details:</h4>
+            `;
+            
+            account.investments.forEach((investment, index) => {
+                detailsHtml += `
+                    <div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+                        <p><strong>Investment ${index + 1}:</strong> ${investment.description}</p>
+                        <p><strong>Amount:</strong> ₹${formatIndianNumber(investment.amount)}</p>
+                        <p><strong>Date Saved:</strong> ${investment.date}</p>
+                    </div>
+                `;
+            });
+            
+            alert(detailsHtml);
         }
         
         function updateSavingsDisplay() {
@@ -1794,9 +2340,22 @@
                 savings.forEach(item => {
                     const savingsItemEl = document.createElement('div');
                     savingsItemEl.className = 'savings-item fade-in';
+                    
+                    // Create account info display if available
+                    let accountInfoHtml = '';
+                    if (item.accountInfo && (item.accountInfo.accountNumber || item.accountInfo.accountType)) {
+                        accountInfoHtml = `
+                            <div class="savings-account-info">
+                                ${item.accountInfo.accountNumber ? `<span>Acc: ${item.accountInfo.accountNumber}</span>` : ''}
+                                ${item.accountInfo.accountType ? `<span>${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}</span>` : ''}
+                            </div>
+                        `;
+                    }
+                    
                     savingsItemEl.innerHTML = `
                         <div class="savings-details">
                             <h4>${item.description}</h4>
+                            ${accountInfoHtml}
                             <div class="savings-date">Saved on: ${item.date}</div>
                         </div>
                         <div class="savings-amount">
@@ -1817,14 +2376,62 @@
         }
         
         function removeSavingsItem(id) {
-            // Remove item from savings array
-            savings = savings.filter(item => item.id !== id);
+            // Find the item to remove
+            const itemIndex = savings.findIndex(item => item.id === id);
+            if (itemIndex === -1) return;
+            
+            const item = savings[itemIndex];
+            
+            // Remove from savings array
+            savings.splice(itemIndex, 1);
+            
+            // Update accounts if item has account info
+            if (item.accountInfo) {
+                updateAccountAfterRemoval(item);
+            }
             
             // Save to localStorage
             localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
             
-            // Update display
+            // Update displays
             updateSavingsDisplay();
+            updateAccountsDisplay();
+        }
+        
+        function updateAccountAfterRemoval(item) {
+            const accountInfo = item.accountInfo;
+            if (!accountInfo) return;
+            
+            // Find the account
+            const accountIndex = accounts.findIndex(acc => 
+                acc.accountNumber === accountInfo.accountNumber && 
+                acc.accountType === accountInfo.accountType
+            );
+            
+            if (accountIndex !== -1) {
+                // Remove the investment from the account
+                const account = accounts[accountIndex];
+                const investmentIndex = account.investments.findIndex(inv => inv.id === item.id);
+                
+                if (investmentIndex !== -1) {
+                    // Remove the investment
+                    account.investments.splice(investmentIndex, 1);
+                    
+                    // Recalculate total balance
+                    account.totalBalance = account.investments.reduce((sum, inv) => sum + inv.amount, 0);
+                    
+                    // Update last updated timestamp
+                    account.lastUpdated = new Date().toISOString();
+                    
+                    // Remove account if no investments left
+                    if (account.investments.length === 0) {
+                        accounts.splice(accountIndex, 1);
+                    }
+                    
+                    // Save accounts to localStorage
+                    localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+                }
+            }
         }
         
         function clearAllSavings() {
@@ -1837,13 +2444,18 @@
                 // Clear savings array
                 savings = [];
                 
+                // Clear accounts array
+                accounts = [];
+                
                 // Remove from localStorage
                 localStorage.removeItem('compoundInterestSavingsINR');
+                localStorage.removeItem('savingsAccounts');
                 
-                // Update display
+                // Update displays
                 updateSavingsDisplay();
+                updateAccountsDisplay();
                 
-                alert('All savings have been cleared.');
+                alert('All savings and accounts have been cleared.');
             }
         }
         
@@ -1864,6 +2476,14 @@
             
             principalCurrentInput.value = 10000;
             maturityAmountCurrentInput.value = 15000;
+            
+            // Reset account fields
+            accountNumberInput.value = '';
+            accountTypeSelect.value = '';
+            bankNameInput.value = '';
+            accountFields.classList.remove('show');
+            const arrow = accountToggle.querySelector('.toggle-arrow');
+            arrow.classList.remove('open');
             
             startDateInput.value = formatDate(today);
             maturityDateInput.value = formatDate(oneYearLater);
@@ -1891,6 +2511,7 @@
             
             // Hide current value card and progress bar
             currentValueCard.style.display = 'none';
+            accountDetailsCard.style.display = 'none';
             mainResultCard.classList.remove('current-result');
             mainResultCard.classList.add('main-result');
             progressSection.style.display = 'none';
