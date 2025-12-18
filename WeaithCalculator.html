@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Indian Rupee Compound Interest Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --success-color: #2ecc71;
+            --warning-color: #f9c74f;
+            --danger-color: #e63946;
+            --current-color: #7209b7;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Wrapper */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .calculator-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Section */
+        .form-section, .result-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-section h2, .result-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 15px;
+        }
+
+        .form-section h2 i, .result-section h2 i {
+            color: var(--primary-color);
+        }
+
+        /* Mode Selector */
+        .mode-selector {
+            margin-bottom: 30px;
+        }
+
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            padding: 12px 10px;
+            background: #f1f3f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .mode-btn i {
+            font-size: 1.2rem;
+        }
+
+        .mode-btn:hover {
+            background: #e4e7f1;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .mode-btn.current.active {
+            background: var(--current-color);
+            border-color: var(--current-color);
+        }
+
+        .mode-description {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label i {
+            color: var(--primary-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .input-row, .date-row {
+                grid-template-columns: 1fr;
+            }
+            .mode-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Range Slider */
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .range-container input[type="range"] {
+            flex: 1;
+            padding: 0;
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .range-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .range-container span {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 40px;
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            flex: 1;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .current-btn {
+            background: linear-gradient(135deg, var(--current-color), #560bad);
+            color: white;
+        }
+
+        .current-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(114, 9, 183, 0.3);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--success-color), #27ae60);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .reset-btn {
+            background: #f1f3f9;
+            color: var(--dark-color);
+        }
+
+        .reset-btn:hover {
+            background: #e4e7f1;
+        }
+
+        /* Results Section */
+        .results-container {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .placeholder-message {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--gray-color);
+            padding: 40px 20px;
+        }
+
+        .placeholder-message i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .placeholder-message p {
+            font-size: 1.1rem;
+            max-width: 300px;
+        }
+
+        .results-content {
+            display: none;
+        }
+
+        /* Result Cards */
+        .result-card {
+            background: linear-gradient(135deg, #f8f9ff, #eef1ff);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .result-card.main-result {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .result-card.current-result {
+            background: linear-gradient(135deg, var(--current-color), #560bad);
+            border-left: 5px solid var(--current-color);
+        }
+
+        .result-card.current-result .result-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .result-card.main-result .result-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .result-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .result-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .rupee-symbol {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .result-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .result-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-bottom: 5px;
+        }
+
+        .result-label i {
+            color: var(--accent-color);
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin: 25px 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* Current Value Section */
+        .current-value-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border-left: 5px solid var(--current-color);
+        }
+
+        .current-value-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--current-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 15px;
+        }
+
+        .current-value-section h2 i {
+            color: var(--current-color);
+        }
+
+        /* Savings Section */
+        .savings-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+        }
+
+        .savings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .savings-header h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .savings-header h2 i {
+            color: var(--success-color);
+        }
+
+        .total-savings {
+            background: linear-gradient(135deg, var(--success-color), #27ae60);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .savings-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .savings-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .savings-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .savings-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .savings-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .savings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--success-color);
+            transition: var(--transition);
+        }
+
+        .savings-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .savings-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .savings-date {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+        }
+
+        .savings-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .no-savings {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-color);
+        }
+
+        .no-savings i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        /* Info Section */
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .info-card p {
+            color: var(--gray-color);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            color: var(--gray-color);
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tech-item {
+            background: #f1f3f9;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        /* Error Message */
+        .error-message {
+            background: #ffeaea;
+            color: var(--danger-color);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--danger-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Hide/Show Form Groups */
+        .hidden {
+            display: none;
+        }
+
+        /* Calculation Summary */
+        .calculation-summary {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-text {
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>Advanced Compound Interest Calculator</h1>
+            </div>
+            <p class="subtitle">Four calculation modes including Current Value Calculator. All amounts in Indian Rupees (₹)</p>
+        </header>
+
+        <div class="calculator-wrapper">
+            <!-- Input Form Section -->
+            <div class="form-section">
+                <h2><i class="fas fa-edit"></i> Investment Details</h2>
+                
+                <!-- Mode Selector -->
+                <div class="mode-selector">
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-mode="amount">
+                            <i class="fas fa-money-check-alt"></i> Find Maturity Amount
+                        </button>
+                        <button class="mode-btn" data-mode="interest">
+                            <i class="fas fa-percentage"></i> Find Interest Rate
+                        </button>
+                        <button class="mode-btn" data-mode="principal">
+                            <i class="fas fa-money-bill-wave"></i> Find Principal Amount
+                        </button>
+                        <button class="mode-btn current" data-mode="current">
+                            <i class="fas fa-chart-line"></i> Find Current Value
+                        </button>
+                    </div>
+                    <div class="mode-description" id="modeDescription">
+                        Calculate the final maturity amount based on principal, interest rate, and time period.
+                    </div>
+                </div>
+
+                <form id="interestForm">
+                    <!-- Mode 1: Find Maturity Amount -->
+                    <div class="mode-content" id="modeAmount">
+                        <div class="form-group">
+                            <label for="principal_amount">
+                                <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                            </label>
+                            <input type="number" id="principal_amount" name="principal_amount" 
+                                   placeholder="Enter initial investment amount" 
+                                   value="10000" step="0.01" min="0">
+                            <div class="input-hint">Minimum: ₹1</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interest_rate">
+                                <i class="fas fa-percentage"></i> Annual Interest Rate (%)
+                            </label>
+                            <div class="range-container">
+                                <input type="range" id="rateSlider" min="0" max="20" step="0.1" value="7.5">
+                                <span id="rateValue">7.5%</span>
+                            </div>
+                            <input type="number" id="interest_rate" name="interest_rate" 
+                                   placeholder="Enter annual interest rate percentage" 
+                                   value="7.5" step="0.01" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <!-- Mode 2: Find Interest Rate -->
+                    <div class="mode-content hidden" id="modeInterest">
+                        <div class="form-group">
+                            <label for="principal_interest">
+                                <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                            </label>
+                            <input type="number" id="principal_interest" name="principal_interest" 
+                                   placeholder="Enter initial investment amount" 
+                                   value="10000" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maturity_amount_interest">
+                                <i class="fas fa-bullseye"></i> Target Maturity Amount (₹)
+                            </label>
+                            <input type="number" id="maturity_amount_interest" name="maturity_amount_interest" 
+                                   placeholder="Enter target maturity amount" 
+                                   value="15000" step="0.01" min="0">
+                            <div class="input-hint">The amount you want to achieve at maturity</div>
+                        </div>
+                    </div>
+
+                    <!-- Mode 3: Find Principal Amount -->
+                    <div class="mode-content hidden" id="modePrincipal">
+                        <div class="form-group">
+                            <label for="maturity_amount_principal">
+                                <i class="fas fa-bullseye"></i> Target Maturity Amount (₹)
+                            </label>
+                            <input type="number" id="maturity_amount_principal" name="maturity_amount_principal" 
+                                   placeholder="Enter target maturity amount" 
+                                   value="15000" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interest_rate_principal">
+                                <i class="fas fa-percentage"></i> Annual Interest Rate (%)
+                            </label>
+                            <div class="range-container">
+                                <input type="range" id="rateSliderPrincipal" min="0" max="20" step="0.1" value="7.5">
+                                <span id="rateValuePrincipal">7.5%</span>
+                            </div>
+                            <input type="number" id="interest_rate_principal" name="interest_rate_principal" 
+                                   placeholder="Enter annual interest rate percentage" 
+                                   value="7.5" step="0.01" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <!-- Mode 4: Find Current Value -->
+                    <div class="mode-content hidden" id="modeCurrent">
+                        <div class="form-group">
+                            <label for="principal_current">
+                                <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                            </label>
+                            <input type="number" id="principal_current" name="principal_current" 
+                                   placeholder="Enter initial investment amount" 
+                                   value="10000" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maturity_amount_current">
+                                <i class="fas fa-bullseye"></i> Maturity Amount (₹)
+                            </label>
+                            <input type="number" id="maturity_amount_current" name="maturity_amount_current" 
+                                   placeholder="Enter final maturity amount" 
+                                   value="15000" step="0.01" min="0">
+                            <div class="input-hint">The total amount at maturity date</div>
+                        </div>
+                    </div>
+
+                    <!-- Common Fields for All Modes -->
+                    <div class="date-row">
+                        <div class="form-group">
+                            <label for="start_date">
+                                <i class="fas fa-play-circle"></i> Start Date
+                            </label>
+                            <input type="date" id="start_date" name="start_date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maturity_date">
+                                <i class="fas fa-calendar-check"></i> Maturity Date
+                            </label>
+                            <input type="date" id="maturity_date" name="maturity_date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compound_frequency">
+                            <i class="fas fa-clock"></i> Compounding Frequency
+                        </label>
+                        <select id="compound_frequency" name="compound_frequency">
+                            <option value="365">Daily</option>
+                            <option value="52">Weekly</option>
+                            <option value="12" selected>Monthly</option>
+                            <option value="4">Quarterly</option>
+                            <option value="2">Semi-annually</option>
+                            <option value="1">Annually</option>
+                        </select>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn calculate-btn" id="calculateBtn">
+                            <i class="fas fa-calculator"></i> Calculate Now
+                        </button>
+                        <button type="button" class="btn reset-btn" id="resetBtn">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="result-section">
+                <h2><i class="fas fa-chart-bar"></i> Calculation Results 
+                    <span class="mode-indicator" id="modeIndicator">
+                        <i class="fas fa-money-check-alt"></i> Maturity Amount Mode
+                    </span>
+                </h2>
+                <div class="results-container">
+                    <div class="placeholder-message" id="placeholderMessage">
+                        <i class="fas fa-arrow-left"></i>
+                        <p>Fill the form and click "Calculate Now" to see results</p>
+                    </div>
+                    
+                    <div class="results-content" id="resultsContent">
+                        <div class="result-card main-result" id="mainResultCard">
+                            <div class="result-icon">
+                                <i class="fas fa-money-check-alt" id="resultIcon"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3 id="resultTitle">Final Maturity Amount</h3>
+                                <div class="amount" id="finalAmount">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Value Section (Only for Current Value Mode) -->
+                        <div class="result-card current-result" id="currentValueCard" style="display: none;">
+                            <div class="result-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3>Current Value (Today)</h3>
+                                <div class="amount" id="currentAmount">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar Section -->
+                        <div class="progress-section" id="progressSection" style="display: none;">
+                            <div class="progress-info">
+                                <span class="progress-label">Investment Progress</span>
+                                <span class="progress-percentage" id="progressPercentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-money-bill-wave"></i> Principal
+                                </div>
+                                <div class="result-value" id="principalResult">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-coins"></i> Interest Earned
+                                </div>
+                                <div class="result-value" id="interestEarned">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-percentage"></i> Interest Rate
+                                </div>
+                                <div class="result-value" id="interestRateResult">0%</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-calendar-alt"></i> Investment Period
+                                </div>
+                                <div class="result-value" id="investmentPeriod">0 years</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-clock"></i> Compounding
+                                </div>
+                                <div class="result-value" id="compoundingResult">Monthly</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-calendar"></i> Dates
+                                </div>
+                                <div class="result-value" id="datesRange">-</div>
+                            </div>
+                        </div>
+                        
+                        <div class="calculation-summary">
+                            <div class="summary-title">
+                                <i class="fas fa-info-circle"></i> Calculation Summary
+                            </div>
+                            <div class="summary-text" id="calculationSummary">
+                                Your investment details will be summarized here.
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" class="btn save-btn" id="saveAmountBtn">
+                                <i class="fas fa-plus-circle"></i> Add to Savings
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="error-message" id="errorMessage">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p id="errorText">An error occurred during calculation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Value Information Section -->
+        <div class="current-value-section">
+            <h2><i class="fas fa-chart-line"></i> Current Value Information</h2>
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-calendar-day"></i> Today's Date
+                    </div>
+                    <div class="result-value" id="todayDate">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-history"></i> Time Elapsed
+                    </div>
+                    <div class="result-value" id="timeElapsed">0 days</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-hourglass-half"></i> Time Remaining
+                    </div>
+                    <div class="result-value" id="timeRemaining">0 days</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-chart-bar"></i> Projection Rate
+                    </div>
+                    <div class="result-value" id="projectionRate">0%</div>
+                </div>
+            </div>
+            <div class="calculation-summary">
+                <div class="summary-title">
+                    <i class="fas fa-lightbulb"></i> How Current Value is Calculated
+                </div>
+                <div class="summary-text">
+                    The current value is calculated based on the investment's progress from start date to today's date. 
+                    If you know the principal and maturity amount, we calculate the implied interest rate and then 
+                    determine the current value based on the time elapsed. This gives you an estimate of what your 
+                    investment is worth today.
+                </div>
+            </div>
+        </div>
+
+        <!-- Savings Tracker Section -->
+        <div class="savings-section">
+            <div class="savings-header">
+                <h2><i class="fas fa-piggy-bank"></i> My Savings (₹)</h2>
+                <div class="total-savings" id="totalSavings">
+                    <span class="rupee-symbol">₹</span>0.00
+                </div>
+            </div>
+            
+            <div class="savings-list" id="savingsList">
+                <div class="no-savings" id="noSavingsMessage">
+                    <i class="fas fa-coins"></i>
+                    <p>No savings added yet. Calculate an amount and click "Add to Savings"</p>
+                </div>
+            </div>
+            
+            <div class="button-group" style="margin-top: 20px;">
+                <button type="button" class="btn reset-btn" id="clearSavingsBtn">
+                    <i class="fas fa-trash-alt"></i> Clear All Savings
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="info-card">
+                <i class="fas fa-calculator"></i>
+                <h3>Four Calculation Modes</h3>
+                <p>1. Find Maturity Amount<br>
+                   2. Find Required Interest Rate<br>
+                   3. Find Initial Principal<br>
+                   4. Find Current Value</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-rupee-sign"></i>
+                <h3>Indian Rupees</h3>
+                <p>All calculations are displayed in Indian Rupees (₹) with proper formatting for Indian numbering system.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-save"></i>
+                <h3>Save Amounts</h3>
+                <p>Click "Add to Savings" to accumulate calculated amounts and track your total savings in ₹.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Advanced Compound Interest Calculator with Four Calculation Modes</p>
+        <p class="tech-stack">
+            <span class="tech-item">HTML5</span>
+            <span class="tech-item">CSS3</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">Font Awesome</span>
+        </p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        const modeContents = document.querySelectorAll('.mode-content');
+        const modeDescription = document.getElementById('modeDescription');
+        const modeIndicator = document.getElementById('modeIndicator');
+        
+        // Input fields for different modes
+        const principalAmountInput = document.getElementById('principal_amount');
+        const interestRateInput = document.getElementById('interest_rate');
+        const rateSlider = document.getElementById('rateSlider');
+        const rateValue = document.getElementById('rateValue');
+        
+        const principalInterestInput = document.getElementById('principal_interest');
+        const maturityAmountInterestInput = document.getElementById('maturity_amount_interest');
+        
+        const maturityAmountPrincipalInput = document.getElementById('maturity_amount_principal');
+        const interestRatePrincipalInput = document.getElementById('interest_rate_principal');
+        const rateSliderPrincipal = document.getElementById('rateSliderPrincipal');
+        const rateValuePrincipal = document.getElementById('rateValuePrincipal');
+        
+        const principalCurrentInput = document.getElementById('principal_current');
+        const maturityAmountCurrentInput = document.getElementById('maturity_amount_current');
+        
+        // Common fields
+        const startDateInput = document.getElementById('start_date');
+        const maturityDateInput = document.getElementById('maturity_date');
+        const compoundFrequencySelect = document.getElementById('compound_frequency');
+        
+        // Buttons
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const saveAmountBtn = document.getElementById('saveAmountBtn');
+        const clearSavingsBtn = document.getElementById('clearSavingsBtn');
+        
+        // Results Elements
+        const placeholderMessage = document.getElementById('placeholderMessage');
+        const resultsContent = document.getElementById('resultsContent');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        
+        const finalAmountEl = document.getElementById('finalAmount');
+        const principalResultEl = document.getElementById('principalResult');
+        const interestEarnedEl = document.getElementById('interestEarned');
+        const interestRateResultEl = document.getElementById('interestRateResult');
+        const investmentPeriodEl = document.getElementById('investmentPeriod');
+        const compoundingResultEl = document.getElementById('compoundingResult');
+        const datesRangeEl = document.getElementById('datesRange');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultIcon = document.getElementById('resultIcon');
+        const calculationSummary = document.getElementById('calculationSummary');
+        const mainResultCard = document.getElementById('mainResultCard');
+        
+        // Current Value Elements
+        const currentValueCard = document.getElementById('currentValueCard');
+        const currentAmountEl = document.getElementById('currentAmount');
+        const progressSection = document.getElementById('progressSection');
+        const progressPercentage = document.getElementById('progressPercentage');
+        const progressFill = document.getElementById('progressFill');
+        
+        // Current Value Information Elements
+        const todayDateEl = document.getElementById('todayDate');
+        const timeElapsedEl = document.getElementById('timeElapsed');
+        const timeRemainingEl = document.getElementById('timeRemaining');
+        const projectionRateEl = document.getElementById('projectionRate');
+        
+        // Savings Elements
+        const totalSavingsEl = document.getElementById('totalSavings');
+        const savingsListEl = document.getElementById('savingsList');
+        const noSavingsMessage = document.getElementById('noSavingsMessage');
+        
+        // Initialize with current date values
+        const today = new Date();
+        const oneYearLater = new Date();
+        oneYearLater.setFullYear(today.getFullYear() + 1);
+        
+        startDateInput.value = formatDate(today);
+        maturityDateInput.value = formatDate(oneYearLater);
+        
+        // Update today's date display
+        todayDateEl.textContent = formatDisplayDate(today);
+        
+        // Initialize savings from localStorage
+        let savings = JSON.parse(localStorage.getItem('compoundInterestSavingsINR')) || [];
+        let currentCalculation = null;
+        let currentMode = 'amount'; // Default mode
+        
+        // Mode descriptions
+        const modeDescriptions = {
+            amount: 'Calculate the final maturity amount based on principal, interest rate, and time period.',
+            interest: 'Calculate the required annual interest rate to reach a target maturity amount from a given principal.',
+            principal: 'Calculate the initial principal amount needed to reach a target maturity amount at a given interest rate.',
+            current: 'Calculate the current value of your investment based on progress from start date to today.'
+        };
+        
+        // Mode indicators
+        const modeIndicators = {
+            amount: '<i class="fas fa-money-check-alt"></i> Maturity Amount Mode',
+            interest: '<i class="fas fa-percentage"></i> Interest Rate Mode',
+            principal: '<i class="fas fa-money-bill-wave"></i> Principal Amount Mode',
+            current: '<i class="fas fa-chart-line"></i> Current Value Mode'
+        };
+        
+        // Result titles
+        const resultTitles = {
+            amount: 'Final Maturity Amount',
+            interest: 'Required Interest Rate',
+            principal: 'Initial Principal Required',
+            current: 'Current Value (Today)'
+        };
+        
+        // Result icons
+        const resultIcons = {
+            amount: 'fas fa-money-check-alt',
+            interest: 'fas fa-percentage',
+            principal: 'fas fa-money-bill-wave',
+            current: 'fas fa-chart-line'
+        };
+        
+        // Update savings display
+        updateSavingsDisplay();
+        
+        // Event Listeners
+        modeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                modeButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Get mode from data attribute
+                currentMode = button.dataset.mode;
+                
+                // Show corresponding form content
+                modeContents.forEach(content => {
+                    if (content.id === `mode${currentMode.charAt(0).toUpperCase() + currentMode.slice(1)}`) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+                
+                // Update mode description
+                modeDescription.textContent = modeDescriptions[currentMode];
+                
+                // Update mode indicator
+                modeIndicator.innerHTML = modeIndicators[currentMode];
+                
+                // Update result title and icon
+                resultTitle.textContent = resultTitles[currentMode];
+                resultIcon.className = resultIcons[currentMode];
+                
+                // Show/hide current value card and progress bar
+                if (currentMode === 'current') {
+                    currentValueCard.style.display = 'none';
+                    mainResultCard.classList.remove('main-result');
+                    mainResultCard.classList.add('current-result');
+                    progressSection.style.display = 'block';
+                } else {
+                    currentValueCard.style.display = 'none';
+                    mainResultCard.classList.remove('current-result');
+                    mainResultCard.classList.add('main-result');
+                    progressSection.style.display = 'none';
+                }
+                
+                // Clear previous results
+                clearResults();
+            });
+        });
+        
+        calculateBtn.addEventListener('click', calculateInterest);
+        resetBtn.addEventListener('click', resetForm);
+        saveAmountBtn.addEventListener('click', saveCurrentAmount);
+        clearSavingsBtn.addEventListener('click', clearAllSavings);
+        
+        // Link interest rate input and slider for mode 1
+        interestRateInput.addEventListener('input', () => {
+            rateSlider.value = interestRateInput.value;
+            rateValue.textContent = `${interestRateInput.value}%`;
+        });
+        
+        rateSlider.addEventListener('input', () => {
+            interestRateInput.value = rateSlider.value;
+            rateValue.textContent = `${rateSlider.value}%`;
+        });
+        
+        // Link interest rate input and slider for mode 3
+        interestRatePrincipalInput.addEventListener('input', () => {
+            rateSliderPrincipal.value = interestRatePrincipalInput.value;
+            rateValuePrincipal.textContent = `${interestRatePrincipalInput.value}%`;
+        });
+        
+        rateSliderPrincipal.addEventListener('input', () => {
+            interestRatePrincipalInput.value = rateSliderPrincipal.value;
+            rateValuePrincipal.textContent = `${rateSliderPrincipal.value}%`;
+        });
+        
+        // Initialize rate displays
+        rateValue.textContent = `${interestRateInput.value}%`;
+        rateSlider.value = interestRateInput.value;
+        rateValuePrincipal.textContent = `${interestRatePrincipalInput.value}%`;
+        rateSliderPrincipal.value = interestRatePrincipalInput.value;
+        
+        // Functions
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+        
+        function clearResults() {
+            resultsContent.style.display = 'none';
+            placeholderMessage.style.display = 'flex';
+            errorMessage.style.display = 'none';
+            currentCalculation = null;
+            saveAmountBtn.disabled = true;
+        }
+        
+        function calculateInterest() {
+            try {
+                // Get common values
+                const startDate = new Date(startDateInput.value);
+                const maturityDate = new Date(maturityDateInput.value);
+                const compoundingFrequency = parseInt(compoundFrequencySelect.value);
+                const today = new Date();
+                
+                // Calculate investment period in years
+                const timeDiff = maturityDate.getTime() - startDate.getTime();
+                const daysDiff = timeDiff / (1000 * 3600 * 24);
+                const years = daysDiff / 365;
+                
+                // Calculate time elapsed and remaining
+                const elapsedTime = today.getTime() - startDate.getTime();
+                const elapsedDays = elapsedTime / (1000 * 3600 * 24);
+                const remainingDays = daysDiff - elapsedDays;
+                
+                // Validate dates
+                if (startDate >= maturityDate) {
+                    throw new Error('Maturity date must be after the start date.');
+                }
+                
+                if (today < startDate) {
+                    throw new Error('Start date cannot be in the future.');
+                }
+                
+                if (today > maturityDate) {
+                    throw new Error('Maturity date cannot be in the past. Current value mode works for ongoing investments.');
+                }
+                
+                let result;
+                
+                switch(currentMode) {
+                    case 'amount':
+                        // Mode 1: Calculate maturity amount
+                        result = calculateMaturityAmount(years, compoundingFrequency);
+                        break;
+                        
+                    case 'interest':
+                        // Mode 2: Calculate interest rate
+                        result = calculateInterestRate(years, compoundingFrequency);
+                        break;
+                        
+                    case 'principal':
+                        // Mode 3: Calculate principal amount
+                        result = calculatePrincipalAmount(years, compoundingFrequency);
+                        break;
+                        
+                    case 'current':
+                        // Mode 4: Calculate current value
+                        result = calculateCurrentValue(years, compoundingFrequency, elapsedDays, daysDiff);
+                        break;
+                }
+                
+                // Add common data to result
+                result.startDate = startDateInput.value;
+                result.maturityDate = maturityDateInput.value;
+                result.years = years.toFixed(2);
+                result.compoundingFrequency = getFrequencyName(compoundingFrequency);
+                result.calculatedAt = new Date().toLocaleString();
+                result.mode = currentMode;
+                
+                // Add time information for current value mode
+                if (currentMode === 'current') {
+                    result.elapsedDays = Math.floor(elapsedDays);
+                    result.remainingDays = Math.floor(remainingDays);
+                    result.progressPercentage = (elapsedDays / daysDiff * 100).toFixed(1);
+                }
+                
+                // Store current calculation
+                currentCalculation = result;
+                
+                // Display results
+                displayResults(currentCalculation);
+                
+                // Update current value information
+                updateCurrentValueInfo(elapsedDays, remainingDays, daysDiff, result);
+                
+                // Hide error message if shown
+                errorMessage.style.display = 'none';
+                
+            } catch (error) {
+                // Show error message
+                errorText.textContent = error.message;
+                errorMessage.style.display = 'flex';
+                resultsContent.style.display = 'none';
+                placeholderMessage.style.display = 'flex';
+            }
+        }
+        
+        function calculateMaturityAmount(years, compoundingFrequency) {
+            const principal = parseFloat(principalAmountInput.value);
+            const interestRate = parseFloat(interestRateInput.value) / 100; // Convert to decimal
+            
+            // Validate inputs
+            if (isNaN(principal) || principal <= 0) {
+                throw new Error('Please enter a valid principal amount (greater than ₹0).');
+            }
+            
+            if (isNaN(interestRate) || interestRate < 0) {
+                throw new Error('Please enter a valid interest rate (0 or greater).');
+            }
+            
+            // Calculate compound interest
+            // Formula: A = P(1 + r/n)^(nt)
+            const amount = principal * Math.pow(1 + interestRate / compoundingFrequency, compoundingFrequency * years);
+            const interestEarned = amount - principal;
+            
+            return {
+                principal,
+                interestRate: interestRate * 100,
+                amount,
+                interestEarned
+            };
+        }
+        
+        function calculateInterestRate(years, compoundingFrequency) {
+            const principal = parseFloat(principalInterestInput.value);
+            const maturityAmount = parseFloat(maturityAmountInterestInput.value);
+            
+            // Validate inputs
+            if (isNaN(principal) || principal <= 0) {
+                throw new Error('Please enter a valid principal amount (greater than ₹0).');
+            }
+            
+            if (isNaN(maturityAmount) || maturityAmount <= 0) {
+                throw new Error('Please enter a valid target maturity amount (greater than ₹0).');
+            }
+            
+            if (maturityAmount <= principal) {
+                throw new Error('Target maturity amount must be greater than principal amount.');
+            }
+            
+            // Calculate required interest rate
+            // Formula: r = n[(A/P)^(1/(nt)) - 1]
+            const rate = compoundingFrequency * (Math.pow(maturityAmount / principal, 1 / (compoundingFrequency * years)) - 1);
+            const annualRate = rate * 100;
+            const interestEarned = maturityAmount - principal;
+            
+            return {
+                principal,
+                interestRate: annualRate,
+                amount: maturityAmount,
+                interestEarned
+            };
+        }
+        
+        function calculatePrincipalAmount(years, compoundingFrequency) {
+            const maturityAmount = parseFloat(maturityAmountPrincipalInput.value);
+            const interestRate = parseFloat(interestRatePrincipalInput.value) / 100; // Convert to decimal
+            
+            // Validate inputs
+            if (isNaN(maturityAmount) || maturityAmount <= 0) {
+                throw new Error('Please enter a valid target maturity amount (greater than ₹0).');
+            }
+            
+            if (isNaN(interestRate) || interestRate < 0) {
+                throw new Error('Please enter a valid interest rate (0 or greater).');
+            }
+            
+            // Calculate required principal amount
+            // Formula: P = A / (1 + r/n)^(nt)
+            const principal = maturityAmount / Math.pow(1 + interestRate / compoundingFrequency, compoundingFrequency * years);
+            const interestEarned = maturityAmount - principal;
+            
+            return {
+                principal,
+                interestRate: interestRate * 100,
+                amount: maturityAmount,
+                interestEarned
+            };
+        }
+        
+        function calculateCurrentValue(years, compoundingFrequency, elapsedDays, totalDays) {
+            const principal = parseFloat(principalCurrentInput.value);
+            const maturityAmount = parseFloat(maturityAmountCurrentInput.value);
+            
+            // Validate inputs
+            if (isNaN(principal) || principal <= 0) {
+                throw new Error('Please enter a valid principal amount (greater than ₹0).');
+            }
+            
+            if (isNaN(maturityAmount) || maturityAmount <= 0) {
+                throw new Error('Please enter a valid maturity amount (greater than ₹0).');
+            }
+            
+            if (maturityAmount <= principal) {
+                throw new Error('Maturity amount must be greater than principal amount.');
+            }
+            
+            // Calculate implied interest rate
+            // Formula: r = n[(A/P)^(1/(nt)) - 1]
+            const rate = compoundingFrequency * (Math.pow(maturityAmount / principal, 1 / (compoundingFrequency * years)) - 1);
+            const annualRate = rate * 100;
+            
+            // Calculate elapsed time in years
+            const elapsedYears = elapsedDays / 365;
+            
+            // Calculate current value
+            // Formula: Current = P(1 + r/n)^(n * elapsedYears)
+            const currentValue = principal * Math.pow(1 + rate / compoundingFrequency, compoundingFrequency * elapsedYears);
+            const interestEarnedSoFar = currentValue - principal;
+            const totalInterestEarned = maturityAmount - principal;
+            
+            return {
+                principal,
+                interestRate: annualRate,
+                amount: maturityAmount,
+                interestEarned: totalInterestEarned,
+                currentValue: currentValue,
+                interestEarnedSoFar: interestEarnedSoFar,
+                progressPercentage: (elapsedDays / totalDays * 100).toFixed(1)
+            };
+        }
+        
+        function displayResults(data) {
+            // Format currency in Indian Rupees
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            
+            // Update result elements based on mode
+            if (data.mode === 'interest') {
+                // For interest rate calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.amount)}`;
+                interestRateResultEl.innerHTML = `<span style="color: var(--primary-color); font-size: 1.4rem;">${data.interestRate.toFixed(2)}%</span>`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarned)}`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    To grow your investment from <strong>₹${formatIndianNumber(data.principal)}</strong> to 
+                    <strong>₹${formatIndianNumber(data.amount)}</strong> over <strong>${data.years} years</strong> with 
+                    <strong>${data.compoundingFrequency}</strong> compounding, you need an annual interest rate of 
+                    <strong style="color: var(--primary-color);">${data.interestRate.toFixed(2)}%</strong>.
+                `;
+            } 
+            else if (data.mode === 'principal') {
+                // For principal calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestRateResultEl.textContent = `${data.interestRate.toFixed(2)}%`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarned)}`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    To reach <strong>₹${formatIndianNumber(data.amount)}</strong> in <strong>${data.years} years</strong> at 
+                    <strong>${data.interestRate.toFixed(2)}%</strong> interest with <strong>${data.compoundingFrequency}</strong> 
+                    compounding, you need to invest <strong>₹${formatIndianNumber(data.principal)}</strong> today.
+                `;
+            }
+            else if (data.mode === 'current') {
+                // For current value calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.currentValue)}`;
+                interestRateResultEl.textContent = `${data.interestRate.toFixed(2)}%`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarnedSoFar)}`;
+                
+                // Show current value card
+                currentValueCard.style.display = 'flex';
+                currentAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.currentValue)}`;
+                
+                // Update progress bar
+                progressPercentage.textContent = `${data.progressPercentage}%`;
+                progressFill.style.width = `${data.progressPercentage}%`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    Your investment of <strong>₹${formatIndianNumber(data.principal)}</strong> is currently worth 
+                    <strong>₹${formatIndianNumber(data.currentValue)}</strong> today. You've earned 
+                    <strong>₹${formatIndianNumber(data.interestEarnedSoFar)}</strong> in interest so far. 
+                    At maturity, it will be worth <strong>₹${formatIndianNumber(data.amount)}</strong>.
+                `;
+            }
+            else {
+                // For amount calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.amount)}`;
+                interestRateResultEl.textContent = `${data.interestRate.toFixed(2)}%`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarned)}`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    Your investment of <strong>₹${formatIndianNumber(data.principal)}</strong> at 
+                    <strong>${data.interestRate.toFixed(2)}%</strong> interest for <strong>${data.years} years</strong> with 
+                    <strong>${data.compoundingFrequency}</strong> compounding will grow to 
+                    <strong>₹${formatIndianNumber(data.amount)}</strong>, earning <strong>₹${formatIndianNumber(data.interestEarned)}</strong> in interest.
+                `;
+            }
+            
+            // Common result updates
+            investmentPeriodEl.textContent = `${data.years} years`;
+            compoundingResultEl.textContent = data.compoundingFrequency;
+            datesRangeEl.textContent = `${formatDisplayDate(data.startDate)} to ${formatDisplayDate(data.maturityDate)}`;
+            
+            // Show results and hide placeholder
+            placeholderMessage.style.display = 'none';
+            resultsContent.style.display = 'block';
+            resultsContent.classList.add('fade-in');
+            
+            // Enable save button
+            saveAmountBtn.disabled = false;
+        }
+        
+        function updateCurrentValueInfo(elapsedDays, remainingDays, totalDays, result) {
+            // Update time elapsed and remaining
+            timeElapsedEl.textContent = `${Math.floor(elapsedDays)} days (${(elapsedDays/365).toFixed(1)} years)`;
+            timeRemainingEl.textContent = `${Math.floor(remainingDays)} days (${(remainingDays/365).toFixed(1)} years)`;
+            
+            // Update projection rate
+            if (result.interestRate) {
+                projectionRateEl.textContent = `${result.interestRate.toFixed(2)}%`;
+            }
+        }
+        
+        function formatIndianNumber(number) {
+            // Format number with Indian numbering system (lakhs, crores)
+            if (number >= 10000000) { // 1 crore or more
+                const crores = number / 10000000;
+                return crores.toFixed(2) + ' Cr';
+            } else if (number >= 100000) { // 1 lakh or more
+                const lakhs = number / 100000;
+                return lakhs.toFixed(2) + ' L';
+            } else {
+                return number.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+        }
+        
+        function formatDisplayDate(date) {
+            if (typeof date === 'string') {
+                date = new Date(date);
+            }
+            return date.toLocaleDateString('en-IN', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+        
+        function getFrequencyName(frequency) {
+            switch(frequency) {
+                case 365: return 'Daily';
+                case 52: return 'Weekly';
+                case 12: return 'Monthly';
+                case 4: return 'Quarterly';
+                case 2: return 'Semi-Annually';
+                case 1: return 'Annually';
+                default: return 'Custom';
+            }
+        }
+        
+        function saveCurrentAmount() {
+            if (!currentCalculation) {
+                alert('Please calculate an amount first before saving.');
+                return;
+            }
+            
+            // Determine amount to save based on mode
+            let amountToSave;
+            let description;
+            
+            if (currentCalculation.mode === 'current') {
+                amountToSave = currentCalculation.currentValue;
+                description = `Current Value: ${formatDisplayDate(currentCalculation.startDate)} to Today`;
+            } else {
+                amountToSave = currentCalculation.amount;
+                description = `${resultTitles[currentCalculation.mode]}: ${formatDisplayDate(currentCalculation.startDate)} to ${formatDisplayDate(currentCalculation.maturityDate)}`;
+            }
+            
+            // Create savings item
+            const savingsItem = {
+                id: Date.now(),
+                amount: amountToSave,
+                description: description,
+                date: new Date().toLocaleDateString('en-IN'),
+                calculationDetails: currentCalculation
+            };
+            
+            // Add to savings array
+            savings.push(savingsItem);
+            
+            // Save to localStorage
+            localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
+            
+            // Update display
+            updateSavingsDisplay();
+            
+            // Show confirmation
+            alert(`Successfully added ₹${formatIndianNumber(amountToSave)} to your savings!`);
+        }
+        
+        function updateSavingsDisplay() {
+            // Calculate total savings
+            const total = savings.reduce((sum, item) => sum + item.amount, 0);
+            
+            // Update total savings display
+            totalSavingsEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(total)}`;
+            
+            // Update savings list
+            if (savings.length === 0) {
+                noSavingsMessage.style.display = 'block';
+                savingsListEl.innerHTML = '';
+                savingsListEl.appendChild(noSavingsMessage);
+            } else {
+                noSavingsMessage.style.display = 'none';
+                
+                // Clear and rebuild savings list
+                savingsListEl.innerHTML = '';
+                
+                // Add each savings item
+                savings.forEach(item => {
+                    const savingsItemEl = document.createElement('div');
+                    savingsItemEl.className = 'savings-item fade-in';
+                    savingsItemEl.innerHTML = `
+                        <div class="savings-details">
+                            <h4>${item.description}</h4>
+                            <div class="savings-date">Saved on: ${item.date}</div>
+                        </div>
+                        <div class="savings-amount">
+                            <span class="rupee-symbol">₹</span>${formatIndianNumber(item.amount)}
+                        </div>
+                    `;
+                    
+                    // Add delete button functionality
+                    savingsItemEl.addEventListener('click', (e) => {
+                        if (confirm('Remove this savings item?')) {
+                            removeSavingsItem(item.id);
+                        }
+                    });
+                    
+                    savingsListEl.appendChild(savingsItemEl);
+                });
+            }
+        }
+        
+        function removeSavingsItem(id) {
+            // Remove item from savings array
+            savings = savings.filter(item => item.id !== id);
+            
+            // Save to localStorage
+            localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
+            
+            // Update display
+            updateSavingsDisplay();
+        }
+        
+        function clearAllSavings() {
+            if (savings.length === 0) {
+                alert('No savings to clear.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to clear all savings? This action cannot be undone.')) {
+                // Clear savings array
+                savings = [];
+                
+                // Remove from localStorage
+                localStorage.removeItem('compoundInterestSavingsINR');
+                
+                // Update display
+                updateSavingsDisplay();
+                
+                alert('All savings have been cleared.');
+            }
+        }
+        
+        function resetForm() {
+            // Reset all input values
+            principalAmountInput.value = 10000;
+            interestRateInput.value = 7.5;
+            rateSlider.value = 7.5;
+            rateValue.textContent = '7.5%';
+            
+            principalInterestInput.value = 10000;
+            maturityAmountInterestInput.value = 15000;
+            
+            maturityAmountPrincipalInput.value = 15000;
+            interestRatePrincipalInput.value = 7.5;
+            rateSliderPrincipal.value = 7.5;
+            rateValuePrincipal.textContent = '7.5%';
+            
+            principalCurrentInput.value = 10000;
+            maturityAmountCurrentInput.value = 15000;
+            
+            startDateInput.value = formatDate(today);
+            maturityDateInput.value = formatDate(oneYearLater);
+            compoundFrequencySelect.value = 12;
+            
+            // Reset to default mode
+            modeButtons.forEach(button => button.classList.remove('active'));
+            document.querySelector('.mode-btn[data-mode="amount"]').classList.add('active');
+            currentMode = 'amount';
+            
+            // Show correct form content
+            modeContents.forEach(content => {
+                if (content.id === 'modeAmount') {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+            
+            // Update descriptions
+            modeDescription.textContent = modeDescriptions[currentMode];
+            modeIndicator.innerHTML = modeIndicators[currentMode];
+            resultTitle.textContent = resultTitles[currentMode];
+            resultIcon.className = resultIcons[currentMode];
+            
+            // Hide current value card and progress bar
+            currentValueCard.style.display = 'none';
+            mainResultCard.classList.remove('current-result');
+            mainResultCard.classList.add('main-result');
+            progressSection.style.display = 'none';
+            
+            // Hide results
+            clearResults();
+        }
+        
+        // Calculate on page load to show example
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                calculateInterest();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
