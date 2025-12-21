@@ -1,0 +1,3770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Indian Rupee Compound Interest Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --success-color: #2ecc71;
+            --warning-color: #f9c74f;
+            --danger-color: #e63946;
+            --current-color: #7209b7;
+            --account-color: #ff6b6b;
+            --export-color: #ff9e00;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Wrapper */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .calculator-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Section */
+        .form-section, .result-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-section h2, .result-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 15px;
+        }
+
+        .form-section h2 i, .result-section h2 i {
+            color: var(--primary-color);
+        }
+
+        /* Mode Selector */
+        .mode-selector {
+            margin-bottom: 30px;
+        }
+
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            padding: 12px 10px;
+            background: #f1f3f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .mode-btn i {
+            font-size: 1.2rem;
+        }
+
+        .mode-btn:hover {
+            background: #e4e7f1;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .mode-btn.current.active {
+            background: var(--current-color);
+            border-color: var(--current-color);
+        }
+
+        .mode-description {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label i {
+            color: var(--primary-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .input-row, .date-row {
+                grid-template-columns: 1fr;
+            }
+            .mode-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Range Slider */
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .range-container input[type="range"] {
+            flex: 1;
+            padding: 0;
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .range-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .range-container span {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 40px;
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+
+        /* Optional Fields Toggle */
+        .optional-fields-toggle {
+            margin: 25px 0;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .toggle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .toggle-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .toggle-title i {
+            color: var(--account-color);
+        }
+
+        .toggle-arrow {
+            transition: var(--transition);
+            color: var(--gray-color);
+        }
+
+        .toggle-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .optional-fields {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .optional-fields.show {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            flex: 1;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .current-btn {
+            background: linear-gradient(135deg, var(--current-color), #560bad);
+            color: white;
+        }
+
+        .current-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(114, 9, 183, 0.3);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--success-color), #27ae60);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, var(--export-color), #ff7b00);
+            color: white;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 158, 0, 0.3);
+        }
+
+        .reset-btn {
+            background: #f1f3f9;
+            color: var(--dark-color);
+        }
+
+        .reset-btn:hover {
+            background: #e4e7f1;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--accent-color), #0096c7);
+            color: white;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(76, 201, 240, 0.3);
+        }
+
+        /* Results Section */
+        .results-container {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .placeholder-message {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--gray-color);
+            padding: 40px 20px;
+        }
+
+        .placeholder-message i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .placeholder-message p {
+            font-size: 1.1rem;
+            max-width: 300px;
+        }
+
+        .results-content {
+            display: none;
+        }
+
+        /* Result Cards */
+        .result-card {
+            background: linear-gradient(135deg, #f8f9ff, #eef1ff);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .result-card.main-result {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .result-card.current-result {
+            background: linear-gradient(135deg, var(--current-color), #560bad);
+            border-left: 5px solid var(--current-color);
+        }
+
+        .result-card.account-details {
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            border-left: 5px solid var(--account-color);
+        }
+
+        .result-card.current-result .result-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .result-card.main-result .result-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .result-card.account-details .result-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .result-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .result-card.account-details .result-icon {
+            color: var(--account-color);
+        }
+
+        .result-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .rupee-symbol {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .result-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .result-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-bottom: 5px;
+        }
+
+        .result-label i {
+            color: var(--accent-color);
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Account Info Display */
+        .account-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .account-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border-left: 3px solid var(--account-color);
+        }
+
+        .account-label {
+            font-weight: 500;
+            color: var(--account-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .account-value {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin: 25px 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* Export/Snapshot Modal */
+        .export-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .export-modal.show {
+            display: flex;
+        }
+
+        .export-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .export-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--export-color), #ff7b00);
+            color: white;
+        }
+
+        .export-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+
+        .export-header h2 i {
+            color: white;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            transform: scale(1.1);
+        }
+
+        .export-body {
+            padding: 30px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 576px) {
+            .export-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .export-option {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .export-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 158, 0, 0.2);
+            border-color: var(--export-color);
+        }
+
+        .export-option i {
+            font-size: 2.5rem;
+            color: var(--export-color);
+            margin-bottom: 15px;
+        }
+
+        .export-option h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .export-option p {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .export-preview {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .export-preview h4 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-preview pre {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--dark-color);
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .export-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .export-actions .btn {
+            flex: 1;
+        }
+
+        .copy-success {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+            z-index: 1001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .copy-success.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .snapshot-history {
+            margin-top: 30px;
+        }
+
+        .snapshot-history h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .snapshot-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .snapshot-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--export-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .snapshot-info h4 {
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .snapshot-date {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+        }
+
+        .snapshot-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .snapshot-btn {
+            background: none;
+            border: none;
+            color: var(--export-color);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .snapshot-btn:hover {
+            transform: scale(1.1);
+            color: #ff7b00;
+        }
+
+        .no-snapshots {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--gray-color);
+        }
+
+        .no-snapshots i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        /* Current Value Section */
+        .current-value-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border-left: 5px solid var(--current-color);
+        }
+
+        .current-value-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--current-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 15px;
+        }
+
+        .current-value-section h2 i {
+            color: var(--current-color);
+        }
+
+        /* Accounts Summary Section */
+        .accounts-summary-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border-left: 5px solid var(--account-color);
+        }
+
+        .accounts-summary-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--account-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 15px;
+        }
+
+        .accounts-summary-section h2 i {
+            color: var(--account-color);
+        }
+
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .account-summary-card {
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid var(--account-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .account-summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .account-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--account-color);
+        }
+
+        .account-number {
+            font-family: monospace;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        .account-balance {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--account-color);
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .account-details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .account-detail {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .detail-label {
+            color: var(--gray-color);
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .no-accounts {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-color);
+        }
+
+        .no-accounts i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        /* Savings Section */
+        .savings-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+        }
+
+        .savings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .savings-header h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .savings-header h2 i {
+            color: var(--success-color);
+        }
+
+        .total-savings {
+            background: linear-gradient(135deg, var(--success-color), #27ae60);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .quick-copy-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-copy-buttons .btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-copy-buttons .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .savings-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .savings-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .savings-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .savings-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .savings-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .savings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--success-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .savings-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .savings-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .savings-account-info {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .savings-account-info span {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .savings-date {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+        }
+
+        .savings-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .no-savings {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-color);
+        }
+
+        .no-savings i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        /* Export Button in Savings Section */
+        .export-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Info Section */
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .info-card p {
+            color: var(--gray-color);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            color: var(--gray-color);
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tech-item {
+            background: #f1f3f9;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        /* Error Message */
+        .error-message {
+            background: #ffeaea;
+            color: var(--danger-color);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--danger-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Hide/Show Form Groups */
+        .hidden {
+            display: none;
+        }
+
+        /* Calculation Summary */
+        .calculation-summary {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-text {
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+
+        /* Copy Button Styles */
+        .copy-item-btn, .copy-account-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .copy-account-btn {
+            color: var(--account-color);
+        }
+
+        .copy-item-btn:hover, .copy-account-btn:hover {
+            transform: scale(1.1);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .copy-account-btn:hover {
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Custom Notification */
+        .custom-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1002;
+            transform: translateX(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            max-width: 400px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .custom-notification.success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .custom-notification.error {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .custom-notification.warning {
+            background: var(--warning-color);
+            color: var(--dark-color);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>Advanced Compound Interest Calculator</h1>
+            </div>
+            <p class="subtitle">Four calculation modes with Account Management & Copy Features</p>
+        </header>
+
+        <div class="calculator-wrapper">
+            <!-- Input Form Section -->
+            <div class="form-section">
+                <h2><i class="fas fa-edit"></i> Investment Details</h2>
+                
+                <!-- Mode Selector -->
+                <div class="mode-selector">
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-mode="amount">
+                            <i class="fas fa-money-check-alt"></i> Find Maturity Amount
+                        </button>
+                        <button class="mode-btn" data-mode="interest">
+                            <i class="fas fa-percentage"></i> Find Interest Rate
+                        </button>
+                        <button class="mode-btn" data-mode="principal">
+                            <i class="fas fa-money-bill-wave"></i> Find Principal Amount
+                        </button>
+                        <button class="mode-btn current" data-mode="current">
+                            <i class="fas fa-chart-line"></i> Find Current Value
+                        </button>
+                    </div>
+                    <div class="mode-description" id="modeDescription">
+                        Calculate the final maturity amount based on principal, interest rate, and time period.
+                    </div>
+                </div>
+
+                <form id="interestForm">
+                    <!-- Mode 1: Find Maturity Amount -->
+                    <div class="mode-content" id="modeAmount">
+                        <div class="form-group">
+                            <label for="principal_amount">
+                                <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                            </label>
+                            <input type="number" id="principal_amount" name="principal_amount" 
+                                   placeholder="Enter initial investment amount" 
+                                   value="10000" step="0.01" min="0">
+                            <div class="input-hint">Minimum: ₹1</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interest_rate">
+                                <i class="fas fa-percentage"></i> Annual Interest Rate (%)
+                            </label>
+                            <div class="range-container">
+                                <input type="range" id="rateSlider" min="0" max="20" step="0.1" value="7.5">
+                                <span id="rateValue">7.5%</span>
+                            </div>
+                            <input type="number" id="interest_rate" name="interest_rate" 
+                                   placeholder="Enter annual interest rate percentage" 
+                                   value="7.5" step="0.01" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <!-- Mode 2: Find Interest Rate -->
+                    <div class="mode-content hidden" id="modeInterest">
+                        <div class="form-group">
+                            <label for="principal_interest">
+                                <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                            </label>
+                            <input type="number" id="principal_interest" name="principal_interest" 
+                                   placeholder="Enter initial investment amount" 
+                                   value="10000" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maturity_amount_interest">
+                                <i class="fas fa-bullseye"></i> Target Maturity Amount (₹)
+                            </label>
+                            <input type="number" id="maturity_amount_interest" name="maturity_amount_interest" 
+                                   placeholder="Enter target maturity amount" 
+                                   value="15000" step="0.01" min="0">
+                            <div class="input-hint">The amount you want to achieve at maturity</div>
+                        </div>
+                    </div>
+
+                    <!-- Mode 3: Find Principal Amount -->
+                    <div class="mode-content hidden" id="modePrincipal">
+                        <div class="form-group">
+                            <label for="maturity_amount_principal">
+                                <i class="fas fa-bullseye"></i> Target Maturity Amount (₹)
+                            </label>
+                            <input type="number" id="maturity_amount_principal" name="maturity_amount_principal" 
+                                   placeholder="Enter target maturity amount" 
+                                   value="15000" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interest_rate_principal">
+                                <i class="fas fa-percentage"></i> Annual Interest Rate (%)
+                            </label>
+                            <div class="range-container">
+                                <input type="range" id="rateSliderPrincipal" min="0" max="20" step="0.1" value="7.5">
+                                <span id="rateValuePrincipal">7.5%</span>
+                            </div>
+                            <input type="number" id="interest_rate_principal" name="interest_rate_principal" 
+                                   placeholder="Enter annual interest rate percentage" 
+                                   value="7.5" step="0.01" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <!-- Mode 4: Find Current Value -->
+                    <div class="mode-content hidden" id="modeCurrent">
+                        <div class="form-group">
+                            <label for="principal_current">
+                                <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                            </label>
+                            <input type="number" id="principal_current" name="principal_current" 
+                                   placeholder="Enter initial investment amount" 
+                                   value="10000" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maturity_amount_current">
+                                <i class="fas fa-bullseye"></i> Maturity Amount (₹)
+                            </label>
+                            <input type="number" id="maturity_amount_current" name="maturity_amount_current" 
+                                   placeholder="Enter final maturity amount" 
+                                   value="15000" step="0.01" min="0">
+                            <div class="input-hint">The total amount at maturity date</div>
+                        </div>
+                    </div>
+
+                    <!-- Common Fields for All Modes -->
+                    <div class="date-row">
+                        <div class="form-group">
+                            <label for="start_date">
+                                <i class="fas fa-play-circle"></i> Start Date
+                            </label>
+                            <input type="date" id="start_date" name="start_date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maturity_date">
+                                <i class="fas fa-calendar-check"></i> Maturity Date
+                            </label>
+                            <input type="date" id="maturity_date" name="maturity_date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compound_frequency">
+                            <i class="fas fa-clock"></i> Compounding Frequency
+                        </label>
+                        <select id="compound_frequency" name="compound_frequency">
+                            <option value="365">Daily</option>
+                            <option value="52">Weekly</option>
+                            <option value="12" selected>Monthly</option>
+                            <option value="4">Quarterly</option>
+                            <option value="2">Semi-annually</option>
+                            <option value="1">Annually</option>
+                        </select>
+                    </div>
+
+                    <!-- Optional Account Information -->
+                    <div class="optional-fields-toggle">
+                        <div class="toggle-header" id="accountToggle">
+                            <div class="toggle-title">
+                                <i class="fas fa-university"></i>
+                                <span>Add Account Information (Optional)</span>
+                            </div>
+                            <div class="toggle-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="optional-fields" id="accountFields">
+                            <div class="form-group">
+                                <label for="account_number">
+                                    <i class="fas fa-credit-card"></i> Account Number
+                                </label>
+                                <input type="text" id="account_number" name="account_number" 
+                                       placeholder="Enter account number (optional)">
+                                <div class="input-hint">Leave blank if not applicable</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="account_type">
+                                    <i class="fas fa-landmark"></i> Account Type
+                                </label>
+                                <select id="account_type" name="account_type">
+                                    <option value="">Select Account Type (Optional)</option>
+                                    <option value="savings">Savings Account</option>
+                                    <option value="current">Current Account</option>
+                                    <option value="fixed_deposit">Fixed Deposit</option>
+                                    <option value="recurring_deposit">Recurring Deposit</option>
+                                    <option value="ppf">Public Provident Fund (PPF)</option>
+                                    <option value="nps">National Pension System (NPS)</option>
+                                    <option value="mutual_fund">Mutual Fund</option>
+                                    <option value="stocks">Stocks/Equity</option>
+                                    <option value="bonds">Bonds</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bank_name">
+                                    <i class="fas fa-building"></i> Bank/Institution Name
+                                </label>
+                                <input type="text" id="bank_name" name="bank_name" 
+                                       placeholder="Enter bank or institution name (optional)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn calculate-btn" id="calculateBtn">
+                            <i class="fas fa-calculator"></i> Calculate Now
+                        </button>
+                        <button type="button" class="btn reset-btn" id="resetBtn">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="result-section">
+                <h2><i class="fas fa-chart-bar"></i> Calculation Results 
+                    <span class="mode-indicator" id="modeIndicator">
+                        <i class="fas fa-money-check-alt"></i> Maturity Amount Mode
+                    </span>
+                </h2>
+                <div class="results-container">
+                    <div class="placeholder-message" id="placeholderMessage">
+                        <i class="fas fa-arrow-left"></i>
+                        <p>Fill the form and click "Calculate Now" to see results</p>
+                    </div>
+                    
+                    <div class="results-content" id="resultsContent">
+                        <div class="result-card main-result" id="mainResultCard">
+                            <div class="result-icon">
+                                <i class="fas fa-money-check-alt" id="resultIcon"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3 id="resultTitle">Final Maturity Amount</h3>
+                                <div class="amount" id="finalAmount">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Value Section (Only for Current Value Mode) -->
+                        <div class="result-card current-result" id="currentValueCard" style="display: none;">
+                            <div class="result-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3>Current Value (Today)</h3>
+                                <div class="amount" id="currentAmount">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Information Section (If provided) -->
+                        <div class="result-card account-details" id="accountDetailsCard" style="display: none;">
+                            <div class="result-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3>Account Information</h3>
+                                <div class="account-info" id="accountInfo">
+                                    <!-- Account details will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar Section -->
+                        <div class="progress-section" id="progressSection" style="display: none;">
+                            <div class="progress-info">
+                                <span class="progress-label">Investment Progress</span>
+                                <span class="progress-percentage" id="progressPercentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-money-bill-wave"></i> Principal
+                                </div>
+                                <div class="result-value" id="principalResult">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-coins"></i> Interest Earned
+                                </div>
+                                <div class="result-value" id="interestEarned">
+                                    <span class="rupee-symbol">₹</span>0.00
+                                </div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-percentage"></i> Interest Rate
+                                </div>
+                                <div class="result-value" id="interestRateResult">0%</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-calendar-alt"></i> Investment Period
+                                </div>
+                                <div class="result-value" id="investmentPeriod">0 years</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-clock"></i> Compounding
+                                </div>
+                                <div class="result-value" id="compoundingResult">Monthly</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">
+                                    <i class="fas fa-calendar"></i> Dates
+                                </div>
+                                <div class="result-value" id="datesRange">-</div>
+                            </div>
+                        </div>
+                        
+                        <div class="calculation-summary">
+                            <div class="summary-title">
+                                <i class="fas fa-info-circle"></i> Calculation Summary
+                            </div>
+                            <div class="summary-text" id="calculationSummary">
+                                Your investment details will be summarized here.
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" class="btn save-btn" id="saveAmountBtn">
+                                <i class="fas fa-plus-circle"></i> Add to Savings
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="error-message" id="errorMessage">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p id="errorText">An error occurred during calculation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export/Snapshot Modal -->
+        <div class="export-modal" id="exportModal">
+            <div class="export-content">
+                <div class="export-header">
+                    <h2><i class="fas fa-camera"></i> Export Savings Data</h2>
+                    <button class="close-modal" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="export-body">
+                    <div class="export-options">
+                        <div class="export-option" id="copyTextOption">
+                            <i class="fas fa-copy"></i>
+                            <h3>Copy to Clipboard</h3>
+                            <p>Copy all savings data as formatted text to paste anywhere</p>
+                        </div>
+                        <div class="export-option" id="downloadJSONOption">
+                            <i class="fas fa-file-code"></i>
+                            <h3>Download JSON</h3>
+                            <p>Download complete savings data as JSON file for backup</p>
+                        </div>
+                        <div class="export-option" id="takeSnapshotOption">
+                            <i class="fas fa-camera"></i>
+                            <h3>Take Snapshot</h3>
+                            <p>Create a timestamped snapshot of current savings state</p>
+                        </div>
+                        <div class="export-option" id="exportCSVOption">
+                            <i class="fas fa-file-csv"></i>
+                            <h3>Export CSV</h3>
+                            <p>Export savings data as CSV file for Excel/Google Sheets</p>
+                        </div>
+                    </div>
+
+                    <div class="export-preview">
+                        <h4><i class="fas fa-eye"></i> Data Preview</h4>
+                        <pre id="exportPreview">Select an export option to see preview...</pre>
+                        <button class="btn copy-btn quick-copy-btn" style="margin-top: 15px; padding: 10px 20px;">
+                            <i class="fas fa-copy"></i> Quick Copy
+                        </button>
+                    </div>
+
+                    <div class="export-actions">
+                        <button class="btn export-btn" id="executeExport">
+                            <i class="fas fa-download"></i> Execute Export
+                        </button>
+                        <button class="btn reset-btn" id="clearSnapshots">
+                            <i class="fas fa-trash-alt"></i> Clear Snapshots
+                        </button>
+                    </div>
+
+                    <div class="snapshot-history">
+                        <h3><i class="fas fa-history"></i> Snapshot History</h3>
+                        <div class="snapshot-list" id="snapshotList">
+                            <div class="no-snapshots">
+                                <i class="fas fa-camera"></i>
+                                <p>No snapshots taken yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copy Success Notification -->
+        <div class="copy-success" id="copySuccess">
+            <i class="fas fa-check-circle"></i>
+            <span>Data copied to clipboard!</span>
+        </div>
+
+        <!-- Accounts Summary Section -->
+        <div class="accounts-summary-section">
+            <h2><i class="fas fa-university"></i> Accounts Summary</h2>
+            <div class="accounts-grid" id="accountsGrid">
+                <div class="no-accounts" id="noAccountsMessage">
+                    <i class="fas fa-university"></i>
+                    <p>No accounts added yet. Save a calculation with account information to see it here.</p>
+                </div>
+            </div>
+            
+            <div class="calculation-summary">
+                <div class="summary-title">
+                    <i class="fas fa-lightbulb"></i> Account Management
+                </div>
+                <div class="summary-text">
+                    Track your investments across different accounts. Each saved calculation with account information 
+                    will appear here, organized by account type. You can track multiple investments in the same account 
+                    and see the total balance for each account type. Click any account card to copy its details.
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Value Information Section -->
+        <div class="current-value-section">
+            <h2><i class="fas fa-chart-line"></i> Current Value Information</h2>
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-calendar-day"></i> Today's Date
+                    </div>
+                    <div class="result-value" id="todayDate">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-history"></i> Time Elapsed
+                    </div>
+                    <div class="result-value" id="timeElapsed">0 days</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-hourglass-half"></i> Time Remaining
+                    </div>
+                    <div class="result-value" id="timeRemaining">0 days</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">
+                        <i class="fas fa-chart-bar"></i> Projection Rate
+                    </div>
+                    <div class="result-value" id="projectionRate">0%</div>
+                </div>
+            </div>
+            <div class="calculation-summary">
+                <div class="summary-title">
+                    <i class="fas fa-lightbulb"></i> How Current Value is Calculated
+                </div>
+                <div class="summary-text">
+                    The current value is calculated based on the investment's progress from start date to today's date. 
+                    If you know the principal and maturity amount, we calculate the implied interest rate and then 
+                    determine the current value based on the time elapsed. This gives you an estimate of what your 
+                    investment is worth today.
+                </div>
+            </div>
+        </div>
+
+        <!-- Savings Tracker Section -->
+        <div class="savings-section">
+            <div class="savings-header">
+                <h2><i class="fas fa-piggy-bank"></i> My Savings (₹)</h2>
+                <div class="total-savings" id="totalSavings">
+                    <span class="rupee-symbol">₹</span>0.00
+                </div>
+            </div>
+            
+            <div class="quick-copy-buttons" id="quickCopyButtons">
+                <!-- Quick copy buttons will be added here by JavaScript -->
+            </div>
+            
+            <div class="savings-list" id="savingsList">
+                <div class="no-savings" id="noSavingsMessage">
+                    <i class="fas fa-coins"></i>
+                    <p>No savings added yet. Calculate an amount and click "Add to Savings"</p>
+                </div>
+            </div>
+            
+            <div class="export-controls">
+                <div class="button-group">
+                    <button type="button" class="btn export-btn" id="exportSavingsBtn">
+                        <i class="fas fa-camera"></i> Export/Snapshot
+                    </button>
+                    <button type="button" class="btn reset-btn" id="clearSavingsBtn">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="info-card">
+                <i class="fas fa-calculator"></i>
+                <h3>Four Calculation Modes</h3>
+                <p>1. Find Maturity Amount<br>
+                   2. Find Required Interest Rate<br>
+                   3. Find Initial Principal<br>
+                   4. Find Current Value</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-copy"></i>
+                <h3>Copy Features</h3>
+                <p>Copy individual items, accounts, calculations, or all savings with one click. Multiple formats available.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-save"></i>
+                <h3>Save Amounts</h3>
+                <p>Click "Add to Savings" to accumulate calculated amounts and track your total savings in ₹.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Advanced Compound Interest Calculator with Copy & Export Features</p>
+        <p class="tech-stack">
+            <span class="tech-item">HTML5</span>
+            <span class="tech-item">CSS3</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">Font Awesome</span>
+            <span class="tech-item">Copy Features</span>
+        </p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        const modeContents = document.querySelectorAll('.mode-content');
+        const modeDescription = document.getElementById('modeDescription');
+        const modeIndicator = document.getElementById('modeIndicator');
+        
+        // Input fields for different modes
+        const principalAmountInput = document.getElementById('principal_amount');
+        const interestRateInput = document.getElementById('interest_rate');
+        const rateSlider = document.getElementById('rateSlider');
+        const rateValue = document.getElementById('rateValue');
+        
+        const principalInterestInput = document.getElementById('principal_interest');
+        const maturityAmountInterestInput = document.getElementById('maturity_amount_interest');
+        
+        const maturityAmountPrincipalInput = document.getElementById('maturity_amount_principal');
+        const interestRatePrincipalInput = document.getElementById('interest_rate_principal');
+        const rateSliderPrincipal = document.getElementById('rateSliderPrincipal');
+        const rateValuePrincipal = document.getElementById('rateValuePrincipal');
+        
+        const principalCurrentInput = document.getElementById('principal_current');
+        const maturityAmountCurrentInput = document.getElementById('maturity_amount_current');
+        
+        // Account information fields
+        const accountNumberInput = document.getElementById('account_number');
+        const accountTypeSelect = document.getElementById('account_type');
+        const bankNameInput = document.getElementById('bank_name');
+        const accountToggle = document.getElementById('accountToggle');
+        const accountFields = document.getElementById('accountFields');
+        
+        // Common fields
+        const startDateInput = document.getElementById('start_date');
+        const maturityDateInput = document.getElementById('maturity_date');
+        const compoundFrequencySelect = document.getElementById('compound_frequency');
+        
+        // Buttons
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const saveAmountBtn = document.getElementById('saveAmountBtn');
+        const exportSavingsBtn = document.getElementById('exportSavingsBtn');
+        const clearSavingsBtn = document.getElementById('clearSavingsBtn');
+        
+        // Export Modal Elements
+        const exportModal = document.getElementById('exportModal');
+        const closeModal = document.getElementById('closeModal');
+        const copyTextOption = document.getElementById('copyTextOption');
+        const downloadJSONOption = document.getElementById('downloadJSONOption');
+        const takeSnapshotOption = document.getElementById('takeSnapshotOption');
+        const exportCSVOption = document.getElementById('exportCSVOption');
+        const exportPreview = document.getElementById('exportPreview');
+        const executeExport = document.getElementById('executeExport');
+        const clearSnapshots = document.getElementById('clearSnapshots');
+        const snapshotList = document.getElementById('snapshotList');
+        const copySuccess = document.getElementById('copySuccess');
+        
+        // Results Elements
+        const placeholderMessage = document.getElementById('placeholderMessage');
+        const resultsContent = document.getElementById('resultsContent');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        
+        const finalAmountEl = document.getElementById('finalAmount');
+        const principalResultEl = document.getElementById('principalResult');
+        const interestEarnedEl = document.getElementById('interestEarned');
+        const interestRateResultEl = document.getElementById('interestRateResult');
+        const investmentPeriodEl = document.getElementById('investmentPeriod');
+        const compoundingResultEl = document.getElementById('compoundingResult');
+        const datesRangeEl = document.getElementById('datesRange');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultIcon = document.getElementById('resultIcon');
+        const calculationSummary = document.getElementById('calculationSummary');
+        const mainResultCard = document.getElementById('mainResultCard');
+        
+        // Account Information Elements
+        const accountDetailsCard = document.getElementById('accountDetailsCard');
+        const accountInfoEl = document.getElementById('accountInfo');
+        
+        // Current Value Elements
+        const currentValueCard = document.getElementById('currentValueCard');
+        const currentAmountEl = document.getElementById('currentAmount');
+        const progressSection = document.getElementById('progressSection');
+        const progressPercentage = document.getElementById('progressPercentage');
+        const progressFill = document.getElementById('progressFill');
+        
+        // Accounts Summary Elements
+        const accountsGrid = document.getElementById('accountsGrid');
+        const noAccountsMessage = document.getElementById('noAccountsMessage');
+        
+        // Current Value Information Elements
+        const todayDateEl = document.getElementById('todayDate');
+        const timeElapsedEl = document.getElementById('timeElapsed');
+        const timeRemainingEl = document.getElementById('timeRemaining');
+        const projectionRateEl = document.getElementById('projectionRate');
+        
+        // Savings Elements
+        const totalSavingsEl = document.getElementById('totalSavings');
+        const savingsListEl = document.getElementById('savingsList');
+        const noSavingsMessage = document.getElementById('noSavingsMessage');
+        const quickCopyButtons = document.getElementById('quickCopyButtons');
+        
+        // Initialize with current date values
+        const today = new Date();
+        const oneYearLater = new Date();
+        oneYearLater.setFullYear(today.getFullYear() + 1);
+        
+        startDateInput.value = formatDate(today);
+        maturityDateInput.value = formatDate(oneYearLater);
+        
+        // Update today's date display
+        todayDateEl.textContent = formatDisplayDate(today);
+        
+        // Initialize savings, accounts, and snapshots from localStorage
+        let savings = JSON.parse(localStorage.getItem('compoundInterestSavingsINR')) || [];
+        let accounts = JSON.parse(localStorage.getItem('savingsAccounts')) || [];
+        let snapshots = JSON.parse(localStorage.getItem('savingsSnapshots')) || [];
+        let currentCalculation = null;
+        let currentMode = 'amount'; // Default mode
+        let currentExportType = 'copy'; // Default export type
+        
+        // Account type display names
+        const accountTypeNames = {
+            'savings': 'Savings Account',
+            'current': 'Current Account',
+            'fixed_deposit': 'Fixed Deposit',
+            'recurring_deposit': 'Recurring Deposit',
+            'ppf': 'Public Provident Fund (PPF)',
+            'nps': 'National Pension System (NPS)',
+            'mutual_fund': 'Mutual Fund',
+            'stocks': 'Stocks/Equity',
+            'bonds': 'Bonds',
+            'other': 'Other'
+        };
+        
+        // Account type icons
+        const accountTypeIcons = {
+            'savings': 'fas fa-piggy-bank',
+            'current': 'fas fa-landmark',
+            'fixed_deposit': 'fas fa-lock',
+            'recurring_deposit': 'fas fa-calendar-alt',
+            'ppf': 'fas fa-shield-alt',
+            'nps': 'fas fa-user-tie',
+            'mutual_fund': 'fas fa-chart-pie',
+            'stocks': 'fas fa-chart-line',
+            'bonds': 'fas fa-file-contract',
+            'other': 'fas fa-wallet'
+        };
+        
+        // Mode descriptions
+        const modeDescriptions = {
+            amount: 'Calculate the final maturity amount based on principal, interest rate, and time period.',
+            interest: 'Calculate the required annual interest rate to reach a target maturity amount from a given principal.',
+            principal: 'Calculate the initial principal amount needed to reach a target maturity amount at a given interest rate.',
+            current: 'Calculate the current value of your investment based on progress from start date to today.'
+        };
+        
+        // Mode indicators
+        const modeIndicators = {
+            amount: '<i class="fas fa-money-check-alt"></i> Maturity Amount Mode',
+            interest: '<i class="fas fa-percentage"></i> Interest Rate Mode',
+            principal: '<i class="fas fa-money-bill-wave"></i> Principal Amount Mode',
+            current: '<i class="fas fa-chart-line"></i> Current Value Mode'
+        };
+        
+        // Result titles
+        const resultTitles = {
+            amount: 'Final Maturity Amount',
+            interest: 'Required Interest Rate',
+            principal: 'Initial Principal Required',
+            current: 'Current Value (Today)'
+        };
+        
+        // Result icons
+        const resultIcons = {
+            amount: 'fas fa-money-check-alt',
+            interest: 'fas fa-percentage',
+            principal: 'fas fa-money-bill-wave',
+            current: 'fas fa-chart-line'
+        };
+        
+        // Initialize
+        updateSavingsDisplay();
+        updateAccountsDisplay();
+        updateSnapshotsDisplay();
+        initializeCopyFeatures();
+        
+        // Event Listeners
+        modeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                modeButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Get mode from data attribute
+                currentMode = button.dataset.mode;
+                
+                // Show corresponding form content
+                modeContents.forEach(content => {
+                    if (content.id === `mode${currentMode.charAt(0).toUpperCase() + currentMode.slice(1)}`) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+                
+                // Update mode description
+                modeDescription.textContent = modeDescriptions[currentMode];
+                
+                // Update mode indicator
+                modeIndicator.innerHTML = modeIndicators[currentMode];
+                
+                // Update result title and icon
+                resultTitle.textContent = resultTitles[currentMode];
+                resultIcon.className = resultIcons[currentMode];
+                
+                // Show/hide current value card and progress bar
+                if (currentMode === 'current') {
+                    currentValueCard.style.display = 'none';
+                    mainResultCard.classList.remove('main-result');
+                    mainResultCard.classList.add('current-result');
+                    progressSection.style.display = 'block';
+                } else {
+                    currentValueCard.style.display = 'none';
+                    mainResultCard.classList.remove('current-result');
+                    mainResultCard.classList.add('main-result');
+                    progressSection.style.display = 'none';
+                }
+                
+                // Clear previous results
+                clearResults();
+            });
+        });
+        
+        // Toggle account fields
+        accountToggle.addEventListener('click', () => {
+            const arrow = accountToggle.querySelector('.toggle-arrow');
+            arrow.classList.toggle('open');
+            accountFields.classList.toggle('show');
+        });
+        
+        // Export modal
+        exportSavingsBtn.addEventListener('click', () => {
+            openExportModal();
+        });
+        
+        closeModal.addEventListener('click', () => {
+            closeExportModal();
+        });
+        
+        // Close modal when clicking outside
+        exportModal.addEventListener('click', (e) => {
+            if (e.target === exportModal) {
+                closeExportModal();
+            }
+        });
+        
+        // Export options
+        copyTextOption.addEventListener('click', () => {
+            setExportType('copy');
+        });
+        
+        downloadJSONOption.addEventListener('click', () => {
+            setExportType('json');
+        });
+        
+        takeSnapshotOption.addEventListener('click', () => {
+            setExportType('snapshot');
+        });
+        
+        exportCSVOption.addEventListener('click', () => {
+            setExportType('csv');
+        });
+        
+        // Execute export
+        executeExport.addEventListener('click', () => {
+            executeCurrentExport();
+        });
+        
+        // Clear snapshots
+        clearSnapshots.addEventListener('click', () => {
+            clearAllSnapshots();
+        });
+        
+        calculateBtn.addEventListener('click', calculateInterest);
+        resetBtn.addEventListener('click', resetForm);
+        saveAmountBtn.addEventListener('click', saveCurrentAmount);
+        clearSavingsBtn.addEventListener('click', clearAllSavings);
+        
+        // Link interest rate input and slider for mode 1
+        interestRateInput.addEventListener('input', () => {
+            rateSlider.value = interestRateInput.value;
+            rateValue.textContent = `${interestRateInput.value}%`;
+        });
+        
+        rateSlider.addEventListener('input', () => {
+            interestRateInput.value = rateSlider.value;
+            rateValue.textContent = `${rateSlider.value}%`;
+        });
+        
+        // Link interest rate input and slider for mode 3
+        interestRatePrincipalInput.addEventListener('input', () => {
+            rateSliderPrincipal.value = interestRatePrincipalInput.value;
+            rateValuePrincipal.textContent = `${interestRatePrincipalInput.value}%`;
+        });
+        
+        rateSliderPrincipal.addEventListener('input', () => {
+            interestRatePrincipalInput.value = rateSliderPrincipal.value;
+            rateValuePrincipal.textContent = `${rateSliderPrincipal.value}%`;
+        });
+        
+        // Initialize rate displays
+        rateValue.textContent = `${interestRateInput.value}%`;
+        rateSlider.value = interestRateInput.value;
+        rateValuePrincipal.textContent = `${interestRatePrincipalInput.value}%`;
+        rateSliderPrincipal.value = interestRatePrincipalInput.value;
+        
+        // Functions
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+        
+        function formatDateTime(date) {
+            return date.toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+        
+        function clearResults() {
+            resultsContent.style.display = 'none';
+            placeholderMessage.style.display = 'flex';
+            errorMessage.style.display = 'none';
+            accountDetailsCard.style.display = 'none';
+            currentCalculation = null;
+            saveAmountBtn.disabled = true;
+        }
+        
+        function openExportModal() {
+            exportModal.classList.add('show');
+            setExportType('copy');
+            updateExportPreview();
+        }
+        
+        function closeExportModal() {
+            exportModal.classList.remove('show');
+        }
+        
+        function setExportType(type) {
+            currentExportType = type;
+            
+            // Remove active class from all options
+            document.querySelectorAll('.export-option').forEach(option => {
+                option.style.borderColor = 'transparent';
+            });
+            
+            // Add active class to selected option
+            let selectedOption;
+            switch(type) {
+                case 'copy':
+                    selectedOption = copyTextOption;
+                    break;
+                case 'json':
+                    selectedOption = downloadJSONOption;
+                    break;
+                case 'snapshot':
+                    selectedOption = takeSnapshotOption;
+                    break;
+                case 'csv':
+                    selectedOption = exportCSVOption;
+                    break;
+            }
+            
+            if (selectedOption) {
+                selectedOption.style.borderColor = 'var(--export-color)';
+            }
+            
+            updateExportPreview();
+        }
+        
+        function updateExportPreview() {
+            switch(currentExportType) {
+                case 'copy':
+                    exportPreview.textContent = generateTextExport();
+                    break;
+                case 'json':
+                    exportPreview.textContent = JSON.stringify(generateExportData(), null, 2);
+                    break;
+                case 'snapshot':
+                    exportPreview.textContent = generateSnapshotPreview();
+                    break;
+                case 'csv':
+                    exportPreview.textContent = generateCSVPreview();
+                    break;
+            }
+            
+            // Add quick copy button functionality
+            const quickCopyBtn = document.querySelector('.quick-copy-btn');
+            if (quickCopyBtn) {
+                quickCopyBtn.onclick = () => {
+                    const text = exportPreview.textContent;
+                    copyToClipboardWithNotification(text, 'Preview data copied to clipboard!');
+                };
+            }
+        }
+        
+        function generateExportData() {
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            const totalAccounts = accounts.length;
+            
+            return {
+                exportDate: new Date().toISOString(),
+                totalSavings: totalSavings,
+                totalItems: savings.length,
+                totalAccounts: totalAccounts,
+                savings: savings,
+                accounts: accounts,
+                summary: {
+                    byAccountType: generateAccountTypeSummary(),
+                    byDateRange: generateDateRangeSummary()
+                }
+            };
+        }
+        
+        function generateTextExport() {
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            let text = `SAVINGS EXPORT - ${formatDateTime(new Date())}\n`;
+            text += '='.repeat(50) + '\n\n';
+            text += `Total Savings: ₹${formatIndianNumber(totalSavings)}\n`;
+            text += `Total Items: ${savings.length}\n`;
+            text += `Total Accounts: ${accounts.length}\n\n`;
+            text += 'SAVINGS DETAILS:\n';
+            text += '-'.repeat(50) + '\n\n';
+            
+            savings.forEach((item, index) => {
+                text += `${index + 1}. ${item.description}\n`;
+                text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                text += `   Date: ${item.date}\n`;
+                if (item.accountInfo) {
+                    if (item.accountInfo.accountNumber) {
+                        text += `   Account: ${item.accountInfo.accountNumber}\n`;
+                    }
+                    if (item.accountInfo.accountType) {
+                        text += `   Type: ${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}\n`;
+                    }
+                }
+                text += '\n';
+            });
+            
+            if (accounts.length > 0) {
+                text += '\nACCOUNTS SUMMARY:\n';
+                text += '-'.repeat(50) + '\n\n';
+                
+                accounts.forEach((account, index) => {
+                    const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
+                    text += `${index + 1}. ${accountTypeName}\n`;
+                    text += `   Account: ${account.accountNumber}\n`;
+                    text += `   Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+                    text += `   Investments: ${account.investments.length}\n`;
+                    text += `   Last Updated: ${formatDisplayDate(new Date(account.lastUpdated))}\n\n`;
+                });
+            }
+            
+            return text;
+        }
+        
+        function generateCSVPreview() {
+            let csv = 'Description,Amount (₹),Date,Account Number,Account Type,Bank Name\n';
+            
+            savings.forEach(item => {
+                const description = `"${item.description.replace(/"/g, '""')}"`;
+                const amount = item.amount.toFixed(2);
+                const date = item.date;
+                const accountNumber = item.accountInfo?.accountNumber || '';
+                const accountType = item.accountInfo?.accountTypeName || item.accountInfo?.accountType || '';
+                const bankName = item.accountInfo?.bankName || '';
+                
+                csv += `${description},${amount},${date},"${accountNumber}","${accountType}","${bankName}"\n`;
+            });
+            
+            return csv;
+        }
+        
+        function generateSnapshotPreview() {
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            return `Snapshot will be created with current state:\n\n` +
+                   `• Total Savings: ₹${formatIndianNumber(totalSavings)}\n` +
+                   `• Number of Items: ${savings.length}\n` +
+                   `• Number of Accounts: ${accounts.length}\n` +
+                   `• Timestamp: ${formatDateTime(new Date())}\n\n` +
+                   `Snapshots allow you to track changes over time.`;
+        }
+        
+        function generateAccountTypeSummary() {
+            const summary = {};
+            accounts.forEach(account => {
+                const type = account.accountType;
+                if (!summary[type]) {
+                    summary[type] = {
+                        count: 0,
+                        totalBalance: 0
+                    };
+                }
+                summary[type].count++;
+                summary[type].totalBalance += account.totalBalance;
+            });
+            return summary;
+        }
+        
+        function generateDateRangeSummary() {
+            if (savings.length === 0) return {};
+            
+            const dates = savings.map(item => new Date(item.calculationDetails?.calculatedAt || item.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            
+            return {
+                startDate: minDate.toISOString().split('T')[0],
+                endDate: maxDate.toISOString().split('T')[0],
+                days: Math.ceil((maxDate - minDate) / (1000 * 60 * 60 * 24))
+            };
+        }
+        
+        function executeCurrentExport() {
+            switch(currentExportType) {
+                case 'copy':
+                    copyToClipboard();
+                    break;
+                case 'json':
+                    downloadJSON();
+                    break;
+                case 'snapshot':
+                    takeSnapshot();
+                    break;
+                case 'csv':
+                    downloadCSV();
+                    break;
+            }
+        }
+        
+        function copyToClipboard() {
+            const text = generateTextExport();
+            copyToClipboardWithNotification(text, 'All savings data copied to clipboard!');
+        }
+        
+        function showCopySuccess() {
+            copySuccess.classList.add('show');
+            setTimeout(() => {
+                copySuccess.classList.remove('show');
+            }, 3000);
+        }
+        
+        function downloadJSON() {
+            const data = generateExportData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `savings_export_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showCustomNotification('JSON file downloaded successfully!', 'success');
+        }
+        
+        function downloadCSV() {
+            const csv = generateCSVPreview();
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `savings_export_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showCustomNotification('CSV file downloaded successfully!', 'success');
+        }
+        
+        function takeSnapshot() {
+            const snapshot = {
+                id: Date.now(),
+                timestamp: new Date().toISOString(),
+                data: generateExportData(),
+                summary: {
+                    totalSavings: savings.reduce((sum, item) => sum + item.amount, 0),
+                    itemCount: savings.length,
+                    accountCount: accounts.length
+                }
+            };
+            
+            snapshots.unshift(snapshot); // Add to beginning
+            if (snapshots.length > 50) { // Keep only last 50 snapshots
+                snapshots = snapshots.slice(0, 50);
+            }
+            
+            localStorage.setItem('savingsSnapshots', JSON.stringify(snapshots));
+            updateSnapshotsDisplay();
+            updateExportPreview();
+            
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            showCustomNotification(
+                `Snapshot created successfully!\nTotal Savings: ₹${formatIndianNumber(totalSavings)}`,
+                'success'
+            );
+        }
+        
+        function updateSnapshotsDisplay() {
+            if (snapshots.length === 0) {
+                snapshotList.innerHTML = `
+                    <div class="no-snapshots">
+                        <i class="fas fa-camera"></i>
+                        <p>No snapshots taken yet</p>
+                    </div>
+                `;
+            } else {
+                let html = '';
+                snapshots.forEach((snapshot, index) => {
+                    const date = new Date(snapshot.timestamp);
+                    html += `
+                        <div class="snapshot-item">
+                            <div class="snapshot-info">
+                                <h4>Snapshot ${index + 1}</h4>
+                                <div class="snapshot-date">${formatDateTime(date)}</div>
+                                <div style="font-size: 0.8rem; color: var(--gray-color); margin-top: 5px;">
+                                    Total: ₹${formatIndianNumber(snapshot.summary.totalSavings)} | 
+                                    Items: ${snapshot.summary.itemCount} | 
+                                    Accounts: ${snapshot.summary.accountCount}
+                                </div>
+                            </div>
+                            <div class="snapshot-actions">
+                                <button class="snapshot-btn" title="View Snapshot" onclick="viewSnapshot(${snapshot.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="snapshot-btn" title="Restore Snapshot" onclick="restoreSnapshot(${snapshot.id})">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                                <button class="snapshot-btn" title="Delete Snapshot" onclick="deleteSnapshot(${snapshot.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                snapshotList.innerHTML = html;
+            }
+        }
+        
+        function viewSnapshot(snapshotId) {
+            const snapshot = snapshots.find(s => s.id === snapshotId);
+            if (!snapshot) return;
+            
+            const text = generateTextExportFromSnapshot(snapshot);
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `snapshot_${new Date(snapshot.timestamp).toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function generateTextExportFromSnapshot(snapshot) {
+            let text = `SNAPSHOT - ${formatDateTime(new Date(snapshot.timestamp))}\n`;
+            text += '='.repeat(50) + '\n\n';
+            text += `Total Savings: ₹${formatIndianNumber(snapshot.summary.totalSavings)}\n`;
+            text += `Total Items: ${snapshot.summary.itemCount}\n`;
+            text += `Total Accounts: ${snapshot.summary.accountCount}\n\n`;
+            
+            if (snapshot.data.savings && snapshot.data.savings.length > 0) {
+                text += 'SAVINGS DETAILS:\n';
+                text += '-'.repeat(50) + '\n\n';
+                
+                snapshot.data.savings.forEach((item, index) => {
+                    text += `${index + 1}. ${item.description}\n`;
+                    text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                    text += `   Date: ${item.date}\n`;
+                    if (item.accountInfo) {
+                        if (item.accountInfo.accountNumber) {
+                            text += `   Account: ${item.accountInfo.accountNumber}\n`;
+                        }
+                        if (item.accountInfo.accountType) {
+                            text += `   Type: ${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}\n`;
+                        }
+                    }
+                    text += '\n';
+                });
+            }
+            
+            return text;
+        }
+        
+        function restoreSnapshot(snapshotId) {
+            if (!confirm('Restore this snapshot? Current savings data will be replaced.')) {
+                return;
+            }
+            
+            const snapshot = snapshots.find(s => s.id === snapshotId);
+            if (!snapshot) return;
+            
+            savings = snapshot.data.savings || [];
+            accounts = snapshot.data.accounts || [];
+            
+            localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
+            localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+            
+            updateSavingsDisplay();
+            updateAccountsDisplay();
+            
+            showCustomNotification('Snapshot restored successfully!', 'success');
+            closeExportModal();
+        }
+        
+        function deleteSnapshot(snapshotId) {
+            if (!confirm('Delete this snapshot? This action cannot be undone.')) {
+                return;
+            }
+            
+            snapshots = snapshots.filter(s => s.id !== snapshotId);
+            localStorage.setItem('savingsSnapshots', JSON.stringify(snapshots));
+            updateSnapshotsDisplay();
+            showCustomNotification('Snapshot deleted successfully!', 'success');
+        }
+        
+        function clearAllSnapshots() {
+            if (snapshots.length === 0) {
+                showCustomNotification('No snapshots to clear.', 'warning');
+                return;
+            }
+            
+            if (confirm('Clear all snapshots? This action cannot be undone.')) {
+                snapshots = [];
+                localStorage.removeItem('savingsSnapshots');
+                updateSnapshotsDisplay();
+                showCustomNotification('All snapshots have been cleared.', 'success');
+            }
+        }
+        
+        // Make functions available globally for onclick handlers
+        window.viewSnapshot = viewSnapshot;
+        window.restoreSnapshot = restoreSnapshot;
+        window.deleteSnapshot = deleteSnapshot;
+        
+        function calculateInterest() {
+            try {
+                // Get common values
+                const startDate = new Date(startDateInput.value);
+                const maturityDate = new Date(maturityDateInput.value);
+                const compoundingFrequency = parseInt(compoundFrequencySelect.value);
+                const today = new Date();
+                
+                // Calculate investment period in years
+                const timeDiff = maturityDate.getTime() - startDate.getTime();
+                const daysDiff = timeDiff / (1000 * 3600 * 24);
+                const years = daysDiff / 365;
+                
+                // Calculate time elapsed and remaining
+                const elapsedTime = today.getTime() - startDate.getTime();
+                const elapsedDays = elapsedTime / (1000 * 3600 * 24);
+                const remainingDays = daysDiff - elapsedDays;
+                
+                // Validate dates
+                if (startDate >= maturityDate) {
+                    throw new Error('Maturity date must be after the start date.');
+                }
+                
+                if (today < startDate) {
+                    throw new Error('Start date cannot be in the future.');
+                }
+                
+                if (today > maturityDate) {
+                    throw new Error('Maturity date cannot be in the past. Current value mode works for ongoing investments.');
+                }
+                
+                let result;
+                
+                switch(currentMode) {
+                    case 'amount':
+                        // Mode 1: Calculate maturity amount
+                        result = calculateMaturityAmount(years, compoundingFrequency);
+                        break;
+                        
+                    case 'interest':
+                        // Mode 2: Calculate interest rate
+                        result = calculateInterestRate(years, compoundingFrequency);
+                        break;
+                        
+                    case 'principal':
+                        // Mode 3: Calculate principal amount
+                        result = calculatePrincipalAmount(years, compoundingFrequency);
+                        break;
+                        
+                    case 'current':
+                        // Mode 4: Calculate current value
+                        result = calculateCurrentValue(years, compoundingFrequency, elapsedDays, daysDiff);
+                        break;
+                }
+                
+                // Add common data to result
+                result.startDate = startDateInput.value;
+                result.maturityDate = maturityDateInput.value;
+                result.years = years.toFixed(2);
+                result.compoundingFrequency = getFrequencyName(compoundingFrequency);
+                result.calculatedAt = new Date().toLocaleString();
+                result.mode = currentMode;
+                
+                // Add account information if provided
+                const accountNumber = accountNumberInput.value.trim();
+                const accountType = accountTypeSelect.value;
+                const bankName = bankNameInput.value.trim();
+                
+                if (accountNumber || accountType) {
+                    result.accountInfo = {
+                        accountNumber: accountNumber,
+                        accountType: accountType,
+                        bankName: bankName,
+                        accountTypeName: accountTypeNames[accountType] || accountType
+                    };
+                }
+                
+                // Add time information for current value mode
+                if (currentMode === 'current') {
+                    result.elapsedDays = Math.floor(elapsedDays);
+                    result.remainingDays = Math.floor(remainingDays);
+                    result.progressPercentage = (elapsedDays / daysDiff * 100).toFixed(1);
+                }
+                
+                // Store current calculation
+                currentCalculation = result;
+                
+                // Display results
+                displayResults(currentCalculation);
+                
+                // Update current value information
+                updateCurrentValueInfo(elapsedDays, remainingDays, daysDiff, result);
+                
+                // Hide error message if shown
+                errorMessage.style.display = 'none';
+                
+            } catch (error) {
+                // Show error message
+                errorText.textContent = error.message;
+                errorMessage.style.display = 'flex';
+                resultsContent.style.display = 'none';
+                placeholderMessage.style.display = 'flex';
+            }
+        }
+        
+        function calculateMaturityAmount(years, compoundingFrequency) {
+            const principal = parseFloat(principalAmountInput.value);
+            const interestRate = parseFloat(interestRateInput.value) / 100; // Convert to decimal
+            
+            // Validate inputs
+            if (isNaN(principal) || principal <= 0) {
+                throw new Error('Please enter a valid principal amount (greater than ₹0).');
+            }
+            
+            if (isNaN(interestRate) || interestRate < 0) {
+                throw new Error('Please enter a valid interest rate (0 or greater).');
+            }
+            
+            // Calculate compound interest
+            // Formula: A = P(1 + r/n)^(nt)
+            const amount = principal * Math.pow(1 + interestRate / compoundingFrequency, compoundingFrequency * years);
+            const interestEarned = amount - principal;
+            
+            return {
+                principal,
+                interestRate: interestRate * 100,
+                amount,
+                interestEarned
+            };
+        }
+        
+        function calculateInterestRate(years, compoundingFrequency) {
+            const principal = parseFloat(principalInterestInput.value);
+            const maturityAmount = parseFloat(maturityAmountInterestInput.value);
+            
+            // Validate inputs
+            if (isNaN(principal) || principal <= 0) {
+                throw new Error('Please enter a valid principal amount (greater than ₹0).');
+            }
+            
+            if (isNaN(maturityAmount) || maturityAmount <= 0) {
+                throw new Error('Please enter a valid target maturity amount (greater than ₹0).');
+            }
+            
+            if (maturityAmount <= principal) {
+                throw new Error('Target maturity amount must be greater than principal amount.');
+            }
+            
+            // Calculate required interest rate
+            // Formula: r = n[(A/P)^(1/(nt)) - 1]
+            const rate = compoundingFrequency * (Math.pow(maturityAmount / principal, 1 / (compoundingFrequency * years)) - 1);
+            const annualRate = rate * 100;
+            const interestEarned = maturityAmount - principal;
+            
+            return {
+                principal,
+                interestRate: annualRate,
+                amount: maturityAmount,
+                interestEarned
+            };
+        }
+        
+        function calculatePrincipalAmount(years, compoundingFrequency) {
+            const maturityAmount = parseFloat(maturityAmountPrincipalInput.value);
+            const interestRate = parseFloat(interestRatePrincipalInput.value) / 100; // Convert to decimal
+            
+            // Validate inputs
+            if (isNaN(maturityAmount) || maturityAmount <= 0) {
+                throw new Error('Please enter a valid target maturity amount (greater than ₹0).');
+            }
+            
+            if (isNaN(interestRate) || interestRate < 0) {
+                throw new Error('Please enter a valid interest rate (0 or greater).');
+            }
+            
+            // Calculate required principal amount
+            // Formula: P = A / (1 + r/n)^(nt)
+            const principal = maturityAmount / Math.pow(1 + interestRate / compoundingFrequency, compoundingFrequency * years);
+            const interestEarned = maturityAmount - principal;
+            
+            return {
+                principal,
+                interestRate: interestRate * 100,
+                amount: maturityAmount,
+                interestEarned
+            };
+        }
+        
+        function calculateCurrentValue(years, compoundingFrequency, elapsedDays, totalDays) {
+            const principal = parseFloat(principalCurrentInput.value);
+            const maturityAmount = parseFloat(maturityAmountCurrentInput.value);
+            
+            // Validate inputs
+            if (isNaN(principal) || principal <= 0) {
+                throw new Error('Please enter a valid principal amount (greater than ₹0).');
+            }
+            
+            if (isNaN(maturityAmount) || maturityAmount <= 0) {
+                throw new Error('Please enter a valid maturity amount (greater than ₹0).');
+            }
+            
+            if (maturityAmount <= principal) {
+                throw new Error('Maturity amount must be greater than principal amount.');
+            }
+            
+            // Calculate implied interest rate
+            // Formula: r = n[(A/P)^(1/(nt)) - 1]
+            const rate = compoundingFrequency * (Math.pow(maturityAmount / principal, 1 / (compoundingFrequency * years)) - 1);
+            const annualRate = rate * 100;
+            
+            // Calculate elapsed time in years
+            const elapsedYears = elapsedDays / 365;
+            
+            // Calculate current value
+            // Formula: Current = P(1 + r/n)^(n * elapsedYears)
+            const currentValue = principal * Math.pow(1 + rate / compoundingFrequency, compoundingFrequency * elapsedYears);
+            const interestEarnedSoFar = currentValue - principal;
+            const totalInterestEarned = maturityAmount - principal;
+            
+            return {
+                principal,
+                interestRate: annualRate,
+                amount: maturityAmount,
+                interestEarned: totalInterestEarned,
+                currentValue: currentValue,
+                interestEarnedSoFar: interestEarnedSoFar,
+                progressPercentage: (elapsedDays / totalDays * 100).toFixed(1)
+            };
+        }
+        
+        function displayResults(data) {
+            // Format currency in Indian Rupees
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            
+            // Update result elements based on mode
+            if (data.mode === 'interest') {
+                // For interest rate calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.amount)}`;
+                interestRateResultEl.innerHTML = `<span style="color: var(--primary-color); font-size: 1.4rem;">${data.interestRate.toFixed(2)}%</span>`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarned)}`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    To grow your investment from <strong>₹${formatIndianNumber(data.principal)}</strong> to 
+                    <strong>₹${formatIndianNumber(data.amount)}</strong> over <strong>${data.years} years</strong> with 
+                    <strong>${data.compoundingFrequency}</strong> compounding, you need an annual interest rate of 
+                    <strong style="color: var(--primary-color);">${data.interestRate.toFixed(2)}%</strong>.
+                `;
+            } 
+            else if (data.mode === 'principal') {
+                // For principal calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestRateResultEl.textContent = `${data.interestRate.toFixed(2)}%`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarned)}`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    To reach <strong>₹${formatIndianNumber(data.amount)}</strong> in <strong>${data.years} years</strong> at 
+                    <strong>${data.interestRate.toFixed(2)}%</strong> interest with <strong>${data.compoundingFrequency}</strong> 
+                    compounding, you need to invest <strong>₹${formatIndianNumber(data.principal)}</strong> today.
+                `;
+            }
+            else if (data.mode === 'current') {
+                // For current value calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.currentValue)}`;
+                interestRateResultEl.textContent = `${data.interestRate.toFixed(2)}%`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarnedSoFar)}`;
+                
+                // Show current value card
+                currentValueCard.style.display = 'flex';
+                currentAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.currentValue)}`;
+                
+                // Update progress bar
+                progressPercentage.textContent = `${data.progressPercentage}%`;
+                progressFill.style.width = `${data.progressPercentage}%`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    Your investment of <strong>₹${formatIndianNumber(data.principal)}</strong> is currently worth 
+                    <strong>₹${formatIndianNumber(data.currentValue)}</strong> today. You've earned 
+                    <strong>₹${formatIndianNumber(data.interestEarnedSoFar)}</strong> in interest so far. 
+                    At maturity, it will be worth <strong>₹${formatIndianNumber(data.amount)}</strong>.
+                `;
+            }
+            else {
+                // For amount calculation mode
+                finalAmountEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.amount)}`;
+                interestRateResultEl.textContent = `${data.interestRate.toFixed(2)}%`;
+                principalResultEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.principal)}`;
+                interestEarnedEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(data.interestEarned)}`;
+                
+                // Update calculation summary
+                calculationSummary.innerHTML = `
+                    Your investment of <strong>₹${formatIndianNumber(data.principal)}</strong> at 
+                    <strong>${data.interestRate.toFixed(2)}%</strong> interest for <strong>${data.years} years</strong> with 
+                    <strong>${data.compoundingFrequency}</strong> compounding will grow to 
+                    <strong>₹${formatIndianNumber(data.amount)}</strong>, earning <strong>₹${formatIndianNumber(data.interestEarned)}</strong> in interest.
+                `;
+            }
+            
+            // Show account information if provided
+            if (data.accountInfo && (data.accountInfo.accountNumber || data.accountInfo.accountType)) {
+                accountDetailsCard.style.display = 'flex';
+                updateAccountInfo(data.accountInfo);
+            } else {
+                accountDetailsCard.style.display = 'none';
+            }
+            
+            // Common result updates
+            investmentPeriodEl.textContent = `${data.years} years`;
+            compoundingResultEl.textContent = data.compoundingFrequency;
+            datesRangeEl.textContent = `${formatDisplayDate(data.startDate)} to ${formatDisplayDate(data.maturityDate)}`;
+            
+            // Show results and hide placeholder
+            placeholderMessage.style.display = 'none';
+            resultsContent.style.display = 'block';
+            resultsContent.classList.add('fade-in');
+            
+            // Enable save button
+            saveAmountBtn.disabled = false;
+            
+            // Add copy button to results
+            addCopyButtonToResults();
+        }
+        
+        function addCopyButtonToResults() {
+            // Remove existing copy button if any
+            const existingCopyBtn = resultsContent.querySelector('.copy-results-btn');
+            if (existingCopyBtn) {
+                existingCopyBtn.remove();
+            }
+            
+            // Create copy button
+            const copyResultsBtn = document.createElement('button');
+            copyResultsBtn.className = 'btn copy-results-btn copy-btn';
+            copyResultsBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Results';
+            
+            // Add to button group
+            const buttonGroup = resultsContent.querySelector('.button-group');
+            if (buttonGroup) {
+                copyResultsBtn.addEventListener('click', copyCurrentCalculation);
+                buttonGroup.appendChild(copyResultsBtn);
+            }
+        }
+        
+        function updateAccountInfo(accountInfo) {
+            let html = '';
+            
+            if (accountInfo.accountNumber) {
+                html += `
+                    <div class="account-field">
+                        <div class="account-label">
+                            <i class="fas fa-credit-card"></i> Account Number
+                        </div>
+                        <div class="account-value">${accountInfo.accountNumber}</div>
+                    </div>
+                `;
+            }
+            
+            if (accountInfo.accountType) {
+                html += `
+                    <div class="account-field">
+                        <div class="account-label">
+                            <i class="fas fa-landmark"></i> Account Type
+                        </div>
+                        <div class="account-value">${accountInfo.accountTypeName || accountInfo.accountType}</div>
+                    </div>
+                `;
+            }
+            
+            if (accountInfo.bankName) {
+                html += `
+                    <div class="account-field">
+                        <div class="account-label">
+                            <i class="fas fa-building"></i> Bank/Institution
+                        </div>
+                        <div class="account-value">${accountInfo.bankName}</div>
+                    </div>
+                `;
+            }
+            
+            accountInfoEl.innerHTML = html;
+        }
+        
+        function updateCurrentValueInfo(elapsedDays, remainingDays, totalDays, result) {
+            // Update time elapsed and remaining
+            timeElapsedEl.textContent = `${Math.floor(elapsedDays)} days (${(elapsedDays/365).toFixed(1)} years)`;
+            timeRemainingEl.textContent = `${Math.floor(remainingDays)} days (${(remainingDays/365).toFixed(1)} years)`;
+            
+            // Update projection rate
+            if (result.interestRate) {
+                projectionRateEl.textContent = `${result.interestRate.toFixed(2)}%`;
+            }
+        }
+        
+        function formatIndianNumber(number) {
+            // Format number with Indian numbering system (lakhs, crores)
+            if (number >= 10000000) { // 1 crore or more
+                const crores = number / 10000000;
+                return crores.toFixed(2) + ' Cr';
+            } else if (number >= 100000) { // 1 lakh or more
+                const lakhs = number / 100000;
+                return lakhs.toFixed(2) + ' L';
+            } else {
+                return number.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+        }
+        
+        function formatDisplayDate(date) {
+            if (typeof date === 'string') {
+                date = new Date(date);
+            }
+            return date.toLocaleDateString('en-IN', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+        
+        function getFrequencyName(frequency) {
+            switch(frequency) {
+                case 365: return 'Daily';
+                case 52: return 'Weekly';
+                case 12: return 'Monthly';
+                case 4: return 'Quarterly';
+                case 2: return 'Semi-Annually';
+                case 1: return 'Annually';
+                default: return 'Custom';
+            }
+        }
+        
+        function saveCurrentAmount() {
+            if (!currentCalculation) {
+                showCustomNotification('Please calculate an amount first before saving.', 'warning');
+                return;
+            }
+            
+            // Determine amount to save based on mode
+            let amountToSave;
+            let description;
+            
+            if (currentCalculation.mode === 'current') {
+                amountToSave = currentCalculation.currentValue;
+                description = `Current Value: ${formatDisplayDate(currentCalculation.startDate)} to Today`;
+            } else {
+                amountToSave = currentCalculation.amount;
+                description = `${resultTitles[currentCalculation.mode]}: ${formatDisplayDate(currentCalculation.startDate)} to ${formatDisplayDate(currentCalculation.maturityDate)}`;
+            }
+            
+            // Get account information
+            const accountInfo = currentCalculation.accountInfo || {};
+            
+            // Create savings item
+            const savingsItem = {
+                id: Date.now(),
+                amount: amountToSave,
+                description: description,
+                date: new Date().toLocaleDateString('en-IN'),
+                calculationDetails: currentCalculation,
+                accountInfo: accountInfo
+            };
+            
+            // Add to savings array
+            savings.push(savingsItem);
+            
+            // Update accounts if account information is provided
+            if (accountInfo.accountNumber || accountInfo.accountType) {
+                updateAccounts(savingsItem);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
+            
+            // Update displays
+            updateSavingsDisplay();
+            updateAccountsDisplay();
+            
+            // Show confirmation
+            showCustomNotification(`Successfully added ₹${formatIndianNumber(amountToSave)} to your savings!`, 'success');
+        }
+        
+        function updateAccounts(savingsItem) {
+            const accountInfo = savingsItem.accountInfo;
+            if (!accountInfo) return;
+            
+            // Find existing account or create new one
+            let accountIndex = accounts.findIndex(acc => 
+                acc.accountNumber === accountInfo.accountNumber && 
+                acc.accountType === accountInfo.accountType
+            );
+            
+            if (accountIndex === -1) {
+                // Create new account
+                const newAccount = {
+                    id: Date.now(),
+                    accountNumber: accountInfo.accountNumber || 'N/A',
+                    accountType: accountInfo.accountType || 'other',
+                    bankName: accountInfo.bankName || '',
+                    totalBalance: savingsItem.amount,
+                    investments: [savingsItem],
+                    lastUpdated: new Date().toISOString()
+                };
+                accounts.push(newAccount);
+            } else {
+                // Update existing account
+                accounts[accountIndex].totalBalance += savingsItem.amount;
+                accounts[accountIndex].investments.push(savingsItem);
+                accounts[accountIndex].lastUpdated = new Date().toISOString();
+            }
+            
+            // Save accounts to localStorage
+            localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+        }
+        
+        function updateSavingsDisplay() {
+            // Calculate total savings
+            const total = savings.reduce((sum, item) => sum + item.amount, 0);
+            
+            // Update total savings display
+            totalSavingsEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(total)}`;
+            
+            // Update savings list
+            if (savings.length === 0) {
+                noSavingsMessage.style.display = 'block';
+                savingsListEl.innerHTML = '';
+                savingsListEl.appendChild(noSavingsMessage);
+            } else {
+                noSavingsMessage.style.display = 'none';
+                
+                // Clear and rebuild savings list
+                savingsListEl.innerHTML = '';
+                
+                // Add each savings item
+                savings.forEach(item => {
+                    const savingsItemEl = document.createElement('div');
+                    savingsItemEl.className = 'savings-item fade-in';
+                    
+                    // Create account info display if available
+                    let accountInfoHtml = '';
+                    if (item.accountInfo && (item.accountInfo.accountNumber || item.accountInfo.accountType)) {
+                        accountInfoHtml = `
+                            <div class="savings-account-info">
+                                ${item.accountInfo.accountNumber ? `<span>Acc: ${item.accountInfo.accountNumber}</span>` : ''}
+                                ${item.accountInfo.accountType ? `<span>${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}</span>` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    savingsItemEl.innerHTML = `
+                        <div class="savings-details">
+                            <h4>${item.description}</h4>
+                            ${accountInfoHtml}
+                            <div class="savings-date">Saved on: ${item.date}</div>
+                        </div>
+                        <div class="savings-amount">
+                            <span class="rupee-symbol">₹</span>${formatIndianNumber(item.amount)}
+                        </div>
+                    `;
+                    
+                    // Add copy button to each savings item
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-item-btn';
+                    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyButton.title = 'Copy item details';
+                    
+                    copyButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copySavingsItem(item.id);
+                    });
+                    
+                    copyButton.addEventListener('mouseenter', () => {
+                        copyButton.style.background = 'rgba(67, 97, 238, 0.1)';
+                    });
+                    
+                    copyButton.addEventListener('mouseleave', () => {
+                        copyButton.style.background = 'transparent';
+                    });
+                    
+                    savingsItemEl.appendChild(copyButton);
+                    
+                    // Add click to delete functionality
+                    savingsItemEl.addEventListener('click', (e) => {
+                        if (!e.target.closest('.copy-item-btn')) {
+                            if (confirm('Remove this savings item?')) {
+                                removeSavingsItem(item.id);
+                            }
+                        }
+                    });
+                    
+                    savingsListEl.appendChild(savingsItemEl);
+                });
+            }
+        }
+        
+        function updateAccountsDisplay() {
+            if (accounts.length === 0) {
+                noAccountsMessage.style.display = 'block';
+                accountsGrid.innerHTML = '';
+                accountsGrid.appendChild(noAccountsMessage);
+            } else {
+                noAccountsMessage.style.display = 'none';
+                
+                // Clear and rebuild accounts grid
+                accountsGrid.innerHTML = '';
+                
+                // Add each account card
+                accounts.forEach(account => {
+                    const accountCard = document.createElement('div');
+                    accountCard.className = 'account-summary-card fade-in';
+                    
+                    const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
+                    const accountIcon = accountTypeIcons[account.accountType] || 'fas fa-wallet';
+                    
+                    accountCard.innerHTML = `
+                        <div class="account-header">
+                            <div class="account-type">
+                                <i class="${accountIcon}"></i>
+                                <span>${accountTypeName}</span>
+                            </div>
+                            <div class="account-number">${account.accountNumber}</div>
+                        </div>
+                        
+                        <div class="account-balance">
+                            <span class="rupee-symbol">₹</span>${formatIndianNumber(account.totalBalance)}
+                        </div>
+                        
+                        <div class="account-details-list">
+                            <div class="account-detail">
+                                <span class="detail-label">Bank/Institution:</span>
+                                <span class="detail-value">${account.bankName || 'Not specified'}</span>
+                            </div>
+                            <div class="account-detail">
+                                <span class="detail-label">Total Investments:</span>
+                                <span class="detail-value">${account.investments.length}</span>
+                            </div>
+                            <div class="account-detail">
+                                <span class="detail-label">Last Updated:</span>
+                                <span class="detail-value">${formatDisplayDate(new Date(account.lastUpdated))}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add copy button to each account card
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-account-btn';
+                    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyButton.title = 'Copy account details';
+                    
+                    copyButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copyAccountDetails(account.id);
+                    });
+                    
+                    copyButton.addEventListener('mouseenter', () => {
+                        copyButton.style.background = 'rgba(255, 107, 107, 0.1)';
+                    });
+                    
+                    copyButton.addEventListener('mouseleave', () => {
+                        copyButton.style.background = 'transparent';
+                    });
+                    
+                    accountCard.appendChild(copyButton);
+                    
+                    // Add click to view account details
+                    accountCard.addEventListener('click', (e) => {
+                        if (!e.target.closest('.copy-account-btn')) {
+                            viewAccountDetails(account);
+                        }
+                    });
+                    
+                    accountsGrid.appendChild(accountCard);
+                });
+            }
+        }
+        
+        function viewAccountDetails(account) {
+            const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
+            
+            let detailsHtml = `Account: ${account.accountNumber}\n`;
+            detailsHtml += `Type: ${accountTypeName}\n`;
+            detailsHtml += `Total Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+            detailsHtml += `Investments: ${account.investments.length}\n\n`;
+            
+            showCustomNotification(`Account details:\n${detailsHtml}`, 'success');
+        }
+        
+        function removeSavingsItem(itemId) {
+            // Remove from savings array
+            const itemIndex = savings.findIndex(item => item.id === itemId);
+            if (itemIndex === -1) return;
+            
+            const removedItem = savings[itemIndex];
+            savings.splice(itemIndex, 1);
+            
+            // Update accounts if this item had account info
+            if (removedItem.accountInfo) {
+                updateAccountAfterItemRemoval(removedItem);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
+            
+            // Update displays
+            updateSavingsDisplay();
+            updateAccountsDisplay();
+            
+            showCustomNotification('Savings item removed successfully!', 'success');
+        }
+        
+        function updateAccountAfterItemRemoval(removedItem) {
+            const accountInfo = removedItem.accountInfo;
+            if (!accountInfo) return;
+            
+            // Find the account
+            const accountIndex = accounts.findIndex(acc => 
+                acc.accountNumber === accountInfo.accountNumber && 
+                acc.accountType === accountInfo.accountType
+            );
+            
+            if (accountIndex !== -1) {
+                // Remove the investment from the account
+                const account = accounts[accountIndex];
+                account.investments = account.investments.filter(inv => inv.id !== removedItem.id);
+                
+                // Recalculate total balance
+                account.totalBalance = account.investments.reduce((sum, inv) => sum + inv.amount, 0);
+                
+                // Update last updated timestamp
+                account.lastUpdated = new Date().toISOString();
+                
+                // Remove account if no investments left
+                if (account.investments.length === 0) {
+                    accounts.splice(accountIndex, 1);
+                }
+                
+                // Save accounts to localStorage
+                localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+            }
+        }
+        
+        function clearAllSavings() {
+            if (savings.length === 0) {
+                showCustomNotification('No savings to clear.', 'warning');
+                return;
+            }
+            
+            if (confirm('Clear all savings? This action cannot be undone.')) {
+                savings = [];
+                accounts = [];
+                localStorage.removeItem('compoundInterestSavingsINR');
+                localStorage.removeItem('savingsAccounts');
+                updateSavingsDisplay();
+                updateAccountsDisplay();
+                showCustomNotification('All savings cleared successfully!', 'success');
+            }
+        }
+        
+        function resetForm() {
+            // Reset form fields
+            document.getElementById('interestForm').reset();
+            
+            // Reset sliders
+            rateSlider.value = 7.5;
+            rateValue.textContent = '7.5%';
+            rateSliderPrincipal.value = 7.5;
+            rateValuePrincipal.textContent = '7.5%';
+            
+            // Reset dates to current and next year
+            const today = new Date();
+            const oneYearLater = new Date();
+            oneYearLater.setFullYear(today.getFullYear() + 1);
+            
+            startDateInput.value = formatDate(today);
+            maturityDateInput.value = formatDate(oneYearLater);
+            
+            // Close account fields if open
+            const arrow = accountToggle.querySelector('.toggle-arrow');
+            arrow.classList.remove('open');
+            accountFields.classList.remove('show');
+            
+            // Clear results
+            clearResults();
+            
+            showCustomNotification('Form reset successfully!', 'success');
+        }
+        
+        // COPY FEATURES FUNCTIONS
+        
+        // 1. Copy Individual Savings Item
+        function copySavingsItem(itemId) {
+            const item = savings.find(item => item.id === itemId);
+            if (!item) return;
+            
+            let text = `SAVINGS ITEM DETAILS\n`;
+            text += '='.repeat(40) + '\n';
+            text += `Description: ${item.description}\n`;
+            text += `Amount: ₹${formatIndianNumber(item.amount)}\n`;
+            text += `Saved Date: ${item.date}\n`;
+            
+            if (item.calculationDetails) {
+                const calc = item.calculationDetails;
+                text += '\nCALCULATION DETAILS:\n';
+                text += `- Mode: ${calc.mode}\n`;
+                text += `- Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `- Interest Rate: ${calc.interestRate?.toFixed(2) || 'N/A'}%\n`;
+                text += `- Period: ${calc.years} years\n`;
+                text += `- Compounding: ${calc.compoundingFrequency}\n`;
+                text += `- Dates: ${formatDisplayDate(calc.startDate)} to ${formatDisplayDate(calc.maturityDate)}\n`;
+            }
+            
+            if (item.accountInfo) {
+                text += '\nACCOUNT INFORMATION:\n';
+                if (item.accountInfo.accountNumber) {
+                    text += `- Account Number: ${item.accountInfo.accountNumber}\n`;
+                }
+                if (item.accountInfo.accountType) {
+                    text += `- Account Type: ${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}\n`;
+                }
+                if (item.accountInfo.bankName) {
+                    text += `- Bank Name: ${item.accountInfo.bankName}\n`;
+                }
+            }
+            
+            text += '\nCopied from Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Savings item copied to clipboard!');
+        }
+        
+        // 2. Copy All Savings Summary
+        function copyAllSavingsSummary() {
+            if (savings.length === 0) {
+                showCustomNotification('No savings to copy.', 'warning');
+                return;
+            }
+            
+            const total = savings.reduce((sum, item) => sum + item.amount, 0);
+            const totalAccounts = accounts.length;
+            
+            let text = `SAVINGS SUMMARY - ${formatDateTime(new Date())}\n`;
+            text += '='.repeat(50) + '\n\n';
+            text += `TOTAL SAVINGS: ₹${formatIndianNumber(total)}\n`;
+            text += `Total Items: ${savings.length}\n`;
+            text += `Total Accounts: ${totalAccounts}\n\n`;
+            
+            // Add accounts summary
+            if (accounts.length > 0) {
+                text += 'ACCOUNTS SUMMARY:\n';
+                text += '-'.repeat(30) + '\n';
+                accounts.forEach((account, index) => {
+                    const typeName = accountTypeNames[account.accountType] || account.accountType;
+                    text += `${index + 1}. ${typeName}\n`;
+                    text += `   Account: ${account.accountNumber}\n`;
+                    text += `   Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+                    text += `   Investments: ${account.investments.length}\n\n`;
+                });
+            }
+            
+            // Add recent savings
+            text += 'RECENT SAVINGS (Last 10 items):\n';
+            text += '-'.repeat(30) + '\n';
+            const recentSavings = savings.slice(-10).reverse();
+            recentSavings.forEach((item, index) => {
+                text += `${index + 1}. ${item.description}\n`;
+                text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                text += `   Date: ${item.date}\n\n`;
+            });
+            
+            text += '\nGenerated by Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Savings summary copied to clipboard!');
+        }
+        
+        // 3. Copy Account Details
+        function copyAccountDetails(accountId) {
+            const account = accounts.find(acc => acc.id === accountId);
+            if (!account) return;
+            
+            const typeName = accountTypeNames[account.accountType] || account.accountType;
+            
+            let text = `ACCOUNT DETAILS\n`;
+            text += '='.repeat(40) + '\n';
+            text += `Account Type: ${typeName}\n`;
+            text += `Account Number: ${account.accountNumber}\n`;
+            text += `Bank/Institution: ${account.bankName || 'Not specified'}\n`;
+            text += `Total Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+            text += `Total Investments: ${account.investments.length}\n`;
+            text += `Last Updated: ${formatDisplayDate(new Date(account.lastUpdated))}\n\n`;
+            
+            text += 'INVESTMENTS IN THIS ACCOUNT:\n';
+            text += '-'.repeat(30) + '\n';
+            account.investments.forEach((item, index) => {
+                text += `${index + 1}. ${item.description}\n`;
+                text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                text += `   Date: ${formatDisplayDate(new Date(item.calculationDetails?.calculatedAt || item.date))}\n`;
+                
+                if (item.calculationDetails) {
+                    const calc = item.calculationDetails;
+                    text += `   Period: ${calc.years} years at ${calc.interestRate?.toFixed(2) || 'N/A'}%\n`;
+                }
+                text += '\n';
+            });
+            
+            text += 'Copied from Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Account details copied to clipboard!');
+        }
+        
+        // 4. Copy Current Calculation Results
+        function copyCurrentCalculation() {
+            if (!currentCalculation) {
+                showCustomNotification('No calculation results to copy. Please calculate first.', 'warning');
+                return;
+            }
+            
+            const calc = currentCalculation;
+            
+            let text = `CALCULATION RESULTS\n`;
+            text += '='.repeat(40) + '\n';
+            text += `Calculation Mode: ${resultTitles[calc.mode]}\n`;
+            text += `Calculation Date: ${calc.calculatedAt}\n\n`;
+            
+            if (calc.mode === 'amount') {
+                text += `Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Investment Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n\n`;
+                text += `MATURITY AMOUNT: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Interest Earned: ₹${formatIndianNumber(calc.interestEarned)}\n`;
+            } 
+            else if (calc.mode === 'interest') {
+                text += `Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Target Amount: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Required Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Investment Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n`;
+            }
+            else if (calc.mode === 'principal') {
+                text += `Target Amount: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Required Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Investment Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n`;
+            }
+            else if (calc.mode === 'current') {
+                text += `Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Maturity Amount: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Implied Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Total Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n\n`;
+                text += `CURRENT VALUE: ₹${formatIndianNumber(calc.currentValue)}\n`;
+                text += `Interest Earned So Far: ₹${formatIndianNumber(calc.interestEarnedSoFar)}\n`;
+                text += `Progress: ${calc.progressPercentage}%\n`;
+                text += `Time Elapsed: ${calc.elapsedDays} days\n`;
+                text += `Time Remaining: ${calc.remainingDays} days\n`;
+            }
+            
+            if (calc.accountInfo) {
+                text += '\nACCOUNT INFORMATION:\n';
+                if (calc.accountInfo.accountNumber) {
+                    text += `- Account Number: ${calc.accountInfo.accountNumber}\n`;
+                }
+                if (calc.accountInfo.accountType) {
+                    text += `- Account Type: ${calc.accountInfo.accountTypeName || calc.accountInfo.accountType}\n`;
+                }
+                if (calc.accountInfo.bankName) {
+                    text += `- Bank Name: ${calc.accountInfo.bankName}\n`;
+                }
+            }
+            
+            text += '\nGenerated by Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Calculation results copied to clipboard!');
+        }
+        
+        // 5. Enhanced Copy to Clipboard with Better Notification
+        function copyToClipboardWithNotification(text, message) {
+            navigator.clipboard.writeText(text).then(() => {
+                showCustomNotification(message, 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCustomNotification(message, 'success');
+            });
+        }
+        
+        // 6. Show Custom Notification
+        function showCustomNotification(message, type = 'success') {
+            // Remove existing notification if any
+            const existingNotification = document.querySelector('.custom-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `custom-notification ${type}`;
+            
+            let icon = 'fa-check-circle';
+            
+            if (type === 'error') {
+                icon = 'fa-exclamation-circle';
+            } else if (type === 'warning') {
+                icon = 'fa-exclamation-triangle';
+            }
+            
+            notification.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Animate out after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100px)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // 7. Initialize Copy Features
+        function initializeCopyFeatures() {
+            // Add quick copy buttons to savings section
+            addQuickCopyButtons();
+            
+            // Add keyboard shortcut (Ctrl+Shift+C for copy all)
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                    e.preventDefault();
+                    const text = generateTextExport();
+                    copyToClipboardWithNotification(text, 'All savings data copied to clipboard! (Keyboard shortcut used)');
+                }
+            });
+        }
+        
+        // 8. Add Quick Copy Buttons to Savings Section Header
+        function addQuickCopyButtons() {
+            quickCopyButtons.innerHTML = '';
+            
+            // Create Copy Summary Button
+            const copySummaryBtn = document.createElement('button');
+            copySummaryBtn.className = 'btn copy-btn';
+            copySummaryBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Summary';
+            copySummaryBtn.addEventListener('click', copyAllSavingsSummary);
+            
+            // Create Copy All Button
+            const copyAllBtn = document.createElement('button');
+            copyAllBtn.className = 'btn copy-btn';
+            copyAllBtn.innerHTML = '<i class="fas fa-copy"></i> Copy All';
+            copyAllBtn.addEventListener('click', () => {
+                const text = generateTextExport();
+                copyToClipboardWithNotification(text, 'All savings data copied to clipboard!');
+            });
+            
+            quickCopyButtons.appendChild(copySummaryBtn);
+            quickCopyButtons.appendChild(copyAllBtn);
+        }
+    </script>
+</body>
+</html>
