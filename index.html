@@ -22,6 +22,7 @@
             --danger-color: #e63946;
             --current-color: #7209b7;
             --account-color: #ff6b6b;
+            --export-color: #ff9e00;
             --light-color: #f8f9fa;
             --dark-color: #212529;
             --gray-color: #6c757d;
@@ -376,6 +377,16 @@
             box-shadow: 0 7px 20px rgba(46, 204, 113, 0.3);
         }
 
+        .export-btn {
+            background: linear-gradient(135deg, var(--export-color), #ff7b00);
+            color: white;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 158, 0, 0.3);
+        }
+
         .reset-btn {
             background: #f1f3f9;
             color: var(--dark-color);
@@ -383,6 +394,16 @@
 
         .reset-btn:hover {
             background: #e4e7f1;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--accent-color), #0096c7);
+            color: white;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(76, 201, 240, 0.3);
         }
 
         /* Results Section */
@@ -428,6 +449,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            position: relative;
         }
 
         .result-card.main-result {
@@ -595,6 +617,266 @@
             transition: width 1s ease;
         }
 
+        /* Export/Snapshot Modal */
+        .export-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .export-modal.show {
+            display: flex;
+        }
+
+        .export-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .export-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--export-color), #ff7b00);
+            color: white;
+        }
+
+        .export-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+
+        .export-header h2 i {
+            color: white;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            transform: scale(1.1);
+        }
+
+        .export-body {
+            padding: 30px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 576px) {
+            .export-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .export-option {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .export-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 158, 0, 0.2);
+            border-color: var(--export-color);
+        }
+
+        .export-option i {
+            font-size: 2.5rem;
+            color: var(--export-color);
+            margin-bottom: 15px;
+        }
+
+        .export-option h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .export-option p {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .export-preview {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .export-preview h4 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-preview pre {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--dark-color);
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .export-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .export-actions .btn {
+            flex: 1;
+        }
+
+        .copy-success {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+            z-index: 1001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .copy-success.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .snapshot-history {
+            margin-top: 30px;
+        }
+
+        .snapshot-history h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .snapshot-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .snapshot-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--export-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .snapshot-info h4 {
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .snapshot-date {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+        }
+
+        .snapshot-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .snapshot-btn {
+            background: none;
+            border: none;
+            color: var(--export-color);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .snapshot-btn:hover {
+            transform: scale(1.1);
+            color: #ff7b00;
+        }
+
+        .no-snapshots {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--gray-color);
+        }
+
+        .no-snapshots i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
         /* Current Value Section */
         .current-value-section {
             background: white;
@@ -658,6 +940,7 @@
             padding: 20px;
             border-left: 4px solid var(--account-color);
             transition: var(--transition);
+            position: relative;
         }
 
         .account-summary-card:hover {
@@ -769,6 +1052,23 @@
             font-size: 1.2rem;
         }
 
+        .quick-copy-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-copy-buttons .btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-copy-buttons .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
         .savings-list {
             max-height: 300px;
             overflow-y: auto;
@@ -803,6 +1103,7 @@
             margin-bottom: 12px;
             border-left: 4px solid var(--success-color);
             transition: var(--transition);
+            position: relative;
         }
 
         .savings-item:hover {
@@ -850,6 +1151,13 @@
             font-size: 3rem;
             margin-bottom: 15px;
             color: #e0e0e0;
+        }
+
+        /* Export Button in Savings Section */
+        .export-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         /* Info Section */
@@ -975,6 +1283,80 @@
             line-height: 1.6;
             color: var(--dark-color);
         }
+
+        /* Copy Button Styles */
+        .copy-item-btn, .copy-account-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .copy-account-btn {
+            color: var(--account-color);
+        }
+
+        .copy-item-btn:hover, .copy-account-btn:hover {
+            transform: scale(1.1);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .copy-account-btn:hover {
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Custom Notification */
+        .custom-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1002;
+            transform: translateX(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            max-width: 400px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .custom-notification.success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .custom-notification.error {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .custom-notification.warning {
+            background: var(--warning-color);
+            color: var(--dark-color);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -982,9 +1364,10 @@
         <header>
             <div class="logo">
                 <i class="fas fa-calculator"></i>
-                <h1>Advanced Compound Interest Calculator</h1>
+                <h1>WealthCalculator</h1>
             </div>
-            <p class="subtitle">Four calculation modes including Current Value Calculator with Account Management</p>
+            <p class="subtitle">Four calculation modes with Account Management & Copy Features</p>
+            <p class="subtitle">Advance Compound intrest calculator</p>
         </header>
 
         <div class="calculator-wrapper">
@@ -1336,6 +1719,75 @@
             </div>
         </div>
 
+        <!-- Export/Snapshot Modal -->
+        <div class="export-modal" id="exportModal">
+            <div class="export-content">
+                <div class="export-header">
+                    <h2><i class="fas fa-camera"></i> Export Savings Data</h2>
+                    <button class="close-modal" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="export-body">
+                    <div class="export-options">
+                        <div class="export-option" id="copyTextOption">
+                            <i class="fas fa-copy"></i>
+                            <h3>Copy to Clipboard</h3>
+                            <p>Copy all savings data as formatted text to paste anywhere</p>
+                        </div>
+                        <div class="export-option" id="downloadJSONOption">
+                            <i class="fas fa-file-code"></i>
+                            <h3>Download JSON</h3>
+                            <p>Download complete savings data as JSON file for backup</p>
+                        </div>
+                        <div class="export-option" id="takeSnapshotOption">
+                            <i class="fas fa-camera"></i>
+                            <h3>Take Snapshot</h3>
+                            <p>Create a timestamped snapshot of current savings state</p>
+                        </div>
+                        <div class="export-option" id="exportCSVOption">
+                            <i class="fas fa-file-csv"></i>
+                            <h3>Export CSV</h3>
+                            <p>Export savings data as CSV file for Excel/Google Sheets</p>
+                        </div>
+                    </div>
+
+                    <div class="export-preview">
+                        <h4><i class="fas fa-eye"></i> Data Preview</h4>
+                        <pre id="exportPreview">Select an export option to see preview...</pre>
+                        <button class="btn copy-btn quick-copy-btn" style="margin-top: 15px; padding: 10px 20px;">
+                            <i class="fas fa-copy"></i> Quick Copy
+                        </button>
+                    </div>
+
+                    <div class="export-actions">
+                        <button class="btn export-btn" id="executeExport">
+                            <i class="fas fa-download"></i> Execute Export
+                        </button>
+                        <button class="btn reset-btn" id="clearSnapshots">
+                            <i class="fas fa-trash-alt"></i> Clear Snapshots
+                        </button>
+                    </div>
+
+                    <div class="snapshot-history">
+                        <h3><i class="fas fa-history"></i> Snapshot History</h3>
+                        <div class="snapshot-list" id="snapshotList">
+                            <div class="no-snapshots">
+                                <i class="fas fa-camera"></i>
+                                <p>No snapshots taken yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copy Success Notification -->
+        <div class="copy-success" id="copySuccess">
+            <i class="fas fa-check-circle"></i>
+            <span>Data copied to clipboard!</span>
+        </div>
+
         <!-- Accounts Summary Section -->
         <div class="accounts-summary-section">
             <h2><i class="fas fa-university"></i> Accounts Summary</h2>
@@ -1353,7 +1805,7 @@
                 <div class="summary-text">
                     Track your investments across different accounts. Each saved calculation with account information 
                     will appear here, organized by account type. You can track multiple investments in the same account 
-                    and see the total balance for each account type.
+                    and see the total balance for each account type. Click any account card to copy its details.
                 </div>
             </div>
         </div>
@@ -1412,6 +1864,10 @@
                 </div>
             </div>
             
+            <div class="quick-copy-buttons" id="quickCopyButtons">
+                <!-- Quick copy buttons will be added here by JavaScript -->
+            </div>
+            
             <div class="savings-list" id="savingsList">
                 <div class="no-savings" id="noSavingsMessage">
                     <i class="fas fa-coins"></i>
@@ -1419,10 +1875,15 @@
                 </div>
             </div>
             
-            <div class="button-group" style="margin-top: 20px;">
-                <button type="button" class="btn reset-btn" id="clearSavingsBtn">
-                    <i class="fas fa-trash-alt"></i> Clear All Savings
-                </button>
+            <div class="export-controls">
+                <div class="button-group">
+                    <button type="button" class="btn export-btn" id="exportSavingsBtn">
+                        <i class="fas fa-camera"></i> Export/Snapshot
+                    </button>
+                    <button type="button" class="btn reset-btn" id="clearSavingsBtn">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1437,9 +1898,9 @@
                    4. Find Current Value</p>
             </div>
             <div class="info-card">
-                <i class="fas fa-university"></i>
-                <h3>Account Management</h3>
-                <p>Add optional account information to track investments across different accounts and account types.</p>
+                <i class="fas fa-copy"></i>
+                <h3>Copy Features</h3>
+                <p>Copy individual items, accounts, calculations, or all savings with one click. Multiple formats available.</p>
             </div>
             <div class="info-card">
                 <i class="fas fa-save"></i>
@@ -1450,12 +1911,13 @@
     </div>
 
     <footer>
-        <p>Advanced Compound Interest Calculator with Account Management</p>
+        <p>Advanced Compound Interest Calculator with Copy & Export Features</p>
         <p class="tech-stack">
             <span class="tech-item">HTML5</span>
             <span class="tech-item">CSS3</span>
             <span class="tech-item">JavaScript</span>
             <span class="tech-item">Font Awesome</span>
+            <span class="tech-item">Copy Features</span>
         </p>
     </footer>
 
@@ -1499,7 +1961,21 @@
         const calculateBtn = document.getElementById('calculateBtn');
         const resetBtn = document.getElementById('resetBtn');
         const saveAmountBtn = document.getElementById('saveAmountBtn');
+        const exportSavingsBtn = document.getElementById('exportSavingsBtn');
         const clearSavingsBtn = document.getElementById('clearSavingsBtn');
+        
+        // Export Modal Elements
+        const exportModal = document.getElementById('exportModal');
+        const closeModal = document.getElementById('closeModal');
+        const copyTextOption = document.getElementById('copyTextOption');
+        const downloadJSONOption = document.getElementById('downloadJSONOption');
+        const takeSnapshotOption = document.getElementById('takeSnapshotOption');
+        const exportCSVOption = document.getElementById('exportCSVOption');
+        const exportPreview = document.getElementById('exportPreview');
+        const executeExport = document.getElementById('executeExport');
+        const clearSnapshots = document.getElementById('clearSnapshots');
+        const snapshotList = document.getElementById('snapshotList');
+        const copySuccess = document.getElementById('copySuccess');
         
         // Results Elements
         const placeholderMessage = document.getElementById('placeholderMessage');
@@ -1544,6 +2020,7 @@
         const totalSavingsEl = document.getElementById('totalSavings');
         const savingsListEl = document.getElementById('savingsList');
         const noSavingsMessage = document.getElementById('noSavingsMessage');
+        const quickCopyButtons = document.getElementById('quickCopyButtons');
         
         // Initialize with current date values
         const today = new Date();
@@ -1556,11 +2033,13 @@
         // Update today's date display
         todayDateEl.textContent = formatDisplayDate(today);
         
-        // Initialize savings and accounts from localStorage
+        // Initialize savings, accounts, and snapshots from localStorage
         let savings = JSON.parse(localStorage.getItem('compoundInterestSavingsINR')) || [];
         let accounts = JSON.parse(localStorage.getItem('savingsAccounts')) || [];
+        let snapshots = JSON.parse(localStorage.getItem('savingsSnapshots')) || [];
         let currentCalculation = null;
         let currentMode = 'amount'; // Default mode
+        let currentExportType = 'copy'; // Default export type
         
         // Account type display names
         const accountTypeNames = {
@@ -1622,9 +2101,11 @@
             current: 'fas fa-chart-line'
         };
         
-        // Update savings and accounts display
+        // Initialize
         updateSavingsDisplay();
         updateAccountsDisplay();
+        updateSnapshotsDisplay();
+        initializeCopyFeatures();
         
         // Event Listeners
         modeButtons.forEach(button => {
@@ -1681,6 +2162,49 @@
             accountFields.classList.toggle('show');
         });
         
+        // Export modal
+        exportSavingsBtn.addEventListener('click', () => {
+            openExportModal();
+        });
+        
+        closeModal.addEventListener('click', () => {
+            closeExportModal();
+        });
+        
+        // Close modal when clicking outside
+        exportModal.addEventListener('click', (e) => {
+            if (e.target === exportModal) {
+                closeExportModal();
+            }
+        });
+        
+        // Export options
+        copyTextOption.addEventListener('click', () => {
+            setExportType('copy');
+        });
+        
+        downloadJSONOption.addEventListener('click', () => {
+            setExportType('json');
+        });
+        
+        takeSnapshotOption.addEventListener('click', () => {
+            setExportType('snapshot');
+        });
+        
+        exportCSVOption.addEventListener('click', () => {
+            setExportType('csv');
+        });
+        
+        // Execute export
+        executeExport.addEventListener('click', () => {
+            executeCurrentExport();
+        });
+        
+        // Clear snapshots
+        clearSnapshots.addEventListener('click', () => {
+            clearAllSnapshots();
+        });
+        
         calculateBtn.addEventListener('click', calculateInterest);
         resetBtn.addEventListener('click', resetForm);
         saveAmountBtn.addEventListener('click', saveCurrentAmount);
@@ -1722,6 +2246,17 @@
             return `${year}-${month}-${day}`;
         }
         
+        function formatDateTime(date) {
+            return date.toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+        
         function clearResults() {
             resultsContent.style.display = 'none';
             placeholderMessage.style.display = 'flex';
@@ -1730,6 +2265,416 @@
             currentCalculation = null;
             saveAmountBtn.disabled = true;
         }
+        
+        function openExportModal() {
+            exportModal.classList.add('show');
+            setExportType('copy');
+            updateExportPreview();
+        }
+        
+        function closeExportModal() {
+            exportModal.classList.remove('show');
+        }
+        
+        function setExportType(type) {
+            currentExportType = type;
+            
+            // Remove active class from all options
+            document.querySelectorAll('.export-option').forEach(option => {
+                option.style.borderColor = 'transparent';
+            });
+            
+            // Add active class to selected option
+            let selectedOption;
+            switch(type) {
+                case 'copy':
+                    selectedOption = copyTextOption;
+                    break;
+                case 'json':
+                    selectedOption = downloadJSONOption;
+                    break;
+                case 'snapshot':
+                    selectedOption = takeSnapshotOption;
+                    break;
+                case 'csv':
+                    selectedOption = exportCSVOption;
+                    break;
+            }
+            
+            if (selectedOption) {
+                selectedOption.style.borderColor = 'var(--export-color)';
+            }
+            
+            updateExportPreview();
+        }
+        
+        function updateExportPreview() {
+            switch(currentExportType) {
+                case 'copy':
+                    exportPreview.textContent = generateTextExport();
+                    break;
+                case 'json':
+                    exportPreview.textContent = JSON.stringify(generateExportData(), null, 2);
+                    break;
+                case 'snapshot':
+                    exportPreview.textContent = generateSnapshotPreview();
+                    break;
+                case 'csv':
+                    exportPreview.textContent = generateCSVPreview();
+                    break;
+            }
+            
+            // Add quick copy button functionality
+            const quickCopyBtn = document.querySelector('.quick-copy-btn');
+            if (quickCopyBtn) {
+                quickCopyBtn.onclick = () => {
+                    const text = exportPreview.textContent;
+                    copyToClipboardWithNotification(text, 'Preview data copied to clipboard!');
+                };
+            }
+        }
+        
+        function generateExportData() {
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            const totalAccounts = accounts.length;
+            
+            return {
+                exportDate: new Date().toISOString(),
+                totalSavings: totalSavings,
+                totalItems: savings.length,
+                totalAccounts: totalAccounts,
+                savings: savings,
+                accounts: accounts,
+                summary: {
+                    byAccountType: generateAccountTypeSummary(),
+                    byDateRange: generateDateRangeSummary()
+                }
+            };
+        }
+        
+        function generateTextExport() {
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            let text = `SAVINGS EXPORT - ${formatDateTime(new Date())}\n`;
+            text += '='.repeat(50) + '\n\n';
+            text += `Total Savings: ₹${formatIndianNumber(totalSavings)}\n`;
+            text += `Total Items: ${savings.length}\n`;
+            text += `Total Accounts: ${accounts.length}\n\n`;
+            text += 'SAVINGS DETAILS:\n';
+            text += '-'.repeat(50) + '\n\n';
+            
+            savings.forEach((item, index) => {
+                text += `${index + 1}. ${item.description}\n`;
+                text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                text += `   Date: ${item.date}\n`;
+                if (item.accountInfo) {
+                    if (item.accountInfo.accountNumber) {
+                        text += `   Account: ${item.accountInfo.accountNumber}\n`;
+                    }
+                    if (item.accountInfo.accountType) {
+                        text += `   Type: ${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}\n`;
+                    }
+                }
+                text += '\n';
+            });
+            
+            if (accounts.length > 0) {
+                text += '\nACCOUNTS SUMMARY:\n';
+                text += '-'.repeat(50) + '\n\n';
+                
+                accounts.forEach((account, index) => {
+                    const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
+                    text += `${index + 1}. ${accountTypeName}\n`;
+                    text += `   Account: ${account.accountNumber}\n`;
+                    text += `   Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+                    text += `   Investments: ${account.investments.length}\n`;
+                    text += `   Last Updated: ${formatDisplayDate(new Date(account.lastUpdated))}\n\n`;
+                });
+            }
+            
+            return text;
+        }
+        
+        function generateCSVPreview() {
+            let csv = 'Description,Amount (₹),Date,Account Number,Account Type,Bank Name\n';
+            
+            savings.forEach(item => {
+                const description = `"${item.description.replace(/"/g, '""')}"`;
+                const amount = item.amount.toFixed(2);
+                const date = item.date;
+                const accountNumber = item.accountInfo?.accountNumber || '';
+                const accountType = item.accountInfo?.accountTypeName || item.accountInfo?.accountType || '';
+                const bankName = item.accountInfo?.bankName || '';
+                
+                csv += `${description},${amount},${date},"${accountNumber}","${accountType}","${bankName}"\n`;
+            });
+            
+            return csv;
+        }
+        
+        function generateSnapshotPreview() {
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            return `Snapshot will be created with current state:\n\n` +
+                   `• Total Savings: ₹${formatIndianNumber(totalSavings)}\n` +
+                   `• Number of Items: ${savings.length}\n` +
+                   `• Number of Accounts: ${accounts.length}\n` +
+                   `• Timestamp: ${formatDateTime(new Date())}\n\n` +
+                   `Snapshots allow you to track changes over time.`;
+        }
+        
+        function generateAccountTypeSummary() {
+            const summary = {};
+            accounts.forEach(account => {
+                const type = account.accountType;
+                if (!summary[type]) {
+                    summary[type] = {
+                        count: 0,
+                        totalBalance: 0
+                    };
+                }
+                summary[type].count++;
+                summary[type].totalBalance += account.totalBalance;
+            });
+            return summary;
+        }
+        
+        function generateDateRangeSummary() {
+            if (savings.length === 0) return {};
+            
+            const dates = savings.map(item => new Date(item.calculationDetails?.calculatedAt || item.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            
+            return {
+                startDate: minDate.toISOString().split('T')[0],
+                endDate: maxDate.toISOString().split('T')[0],
+                days: Math.ceil((maxDate - minDate) / (1000 * 60 * 60 * 24))
+            };
+        }
+        
+        function executeCurrentExport() {
+            switch(currentExportType) {
+                case 'copy':
+                    copyToClipboard();
+                    break;
+                case 'json':
+                    downloadJSON();
+                    break;
+                case 'snapshot':
+                    takeSnapshot();
+                    break;
+                case 'csv':
+                    downloadCSV();
+                    break;
+            }
+        }
+        
+        function copyToClipboard() {
+            const text = generateTextExport();
+            copyToClipboardWithNotification(text, 'All savings data copied to clipboard!');
+        }
+        
+        function showCopySuccess() {
+            copySuccess.classList.add('show');
+            setTimeout(() => {
+                copySuccess.classList.remove('show');
+            }, 3000);
+        }
+        
+        function downloadJSON() {
+            const data = generateExportData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `savings_export_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showCustomNotification('JSON file downloaded successfully!', 'success');
+        }
+        
+        function downloadCSV() {
+            const csv = generateCSVPreview();
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `savings_export_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showCustomNotification('CSV file downloaded successfully!', 'success');
+        }
+        
+        function takeSnapshot() {
+            const snapshot = {
+                id: Date.now(),
+                timestamp: new Date().toISOString(),
+                data: generateExportData(),
+                summary: {
+                    totalSavings: savings.reduce((sum, item) => sum + item.amount, 0),
+                    itemCount: savings.length,
+                    accountCount: accounts.length
+                }
+            };
+            
+            snapshots.unshift(snapshot); // Add to beginning
+            if (snapshots.length > 50) { // Keep only last 50 snapshots
+                snapshots = snapshots.slice(0, 50);
+            }
+            
+            localStorage.setItem('savingsSnapshots', JSON.stringify(snapshots));
+            updateSnapshotsDisplay();
+            updateExportPreview();
+            
+            const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+            showCustomNotification(
+                `Snapshot created successfully!\nTotal Savings: ₹${formatIndianNumber(totalSavings)}`,
+                'success'
+            );
+        }
+        
+        function updateSnapshotsDisplay() {
+            if (snapshots.length === 0) {
+                snapshotList.innerHTML = `
+                    <div class="no-snapshots">
+                        <i class="fas fa-camera"></i>
+                        <p>No snapshots taken yet</p>
+                    </div>
+                `;
+            } else {
+                let html = '';
+                snapshots.forEach((snapshot, index) => {
+                    const date = new Date(snapshot.timestamp);
+                    html += `
+                        <div class="snapshot-item">
+                            <div class="snapshot-info">
+                                <h4>Snapshot ${index + 1}</h4>
+                                <div class="snapshot-date">${formatDateTime(date)}</div>
+                                <div style="font-size: 0.8rem; color: var(--gray-color); margin-top: 5px;">
+                                    Total: ₹${formatIndianNumber(snapshot.summary.totalSavings)} | 
+                                    Items: ${snapshot.summary.itemCount} | 
+                                    Accounts: ${snapshot.summary.accountCount}
+                                </div>
+                            </div>
+                            <div class="snapshot-actions">
+                                <button class="snapshot-btn" title="View Snapshot" onclick="viewSnapshot(${snapshot.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="snapshot-btn" title="Restore Snapshot" onclick="restoreSnapshot(${snapshot.id})">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                                <button class="snapshot-btn" title="Delete Snapshot" onclick="deleteSnapshot(${snapshot.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                snapshotList.innerHTML = html;
+            }
+        }
+        
+        function viewSnapshot(snapshotId) {
+            const snapshot = snapshots.find(s => s.id === snapshotId);
+            if (!snapshot) return;
+            
+            const text = generateTextExportFromSnapshot(snapshot);
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `snapshot_${new Date(snapshot.timestamp).toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function generateTextExportFromSnapshot(snapshot) {
+            let text = `SNAPSHOT - ${formatDateTime(new Date(snapshot.timestamp))}\n`;
+            text += '='.repeat(50) + '\n\n';
+            text += `Total Savings: ₹${formatIndianNumber(snapshot.summary.totalSavings)}\n`;
+            text += `Total Items: ${snapshot.summary.itemCount}\n`;
+            text += `Total Accounts: ${snapshot.summary.accountCount}\n\n`;
+            
+            if (snapshot.data.savings && snapshot.data.savings.length > 0) {
+                text += 'SAVINGS DETAILS:\n';
+                text += '-'.repeat(50) + '\n\n';
+                
+                snapshot.data.savings.forEach((item, index) => {
+                    text += `${index + 1}. ${item.description}\n`;
+                    text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                    text += `   Date: ${item.date}\n`;
+                    if (item.accountInfo) {
+                        if (item.accountInfo.accountNumber) {
+                            text += `   Account: ${item.accountInfo.accountNumber}\n`;
+                        }
+                        if (item.accountInfo.accountType) {
+                            text += `   Type: ${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}\n`;
+                        }
+                    }
+                    text += '\n';
+                });
+            }
+            
+            return text;
+        }
+        
+        function restoreSnapshot(snapshotId) {
+            if (!confirm('Restore this snapshot? Current savings data will be replaced.')) {
+                return;
+            }
+            
+            const snapshot = snapshots.find(s => s.id === snapshotId);
+            if (!snapshot) return;
+            
+            savings = snapshot.data.savings || [];
+            accounts = snapshot.data.accounts || [];
+            
+            localStorage.setItem('compoundInterestSavingsINR', JSON.stringify(savings));
+            localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+            
+            updateSavingsDisplay();
+            updateAccountsDisplay();
+            
+            showCustomNotification('Snapshot restored successfully!', 'success');
+            closeExportModal();
+        }
+        
+        function deleteSnapshot(snapshotId) {
+            if (!confirm('Delete this snapshot? This action cannot be undone.')) {
+                return;
+            }
+            
+            snapshots = snapshots.filter(s => s.id !== snapshotId);
+            localStorage.setItem('savingsSnapshots', JSON.stringify(snapshots));
+            updateSnapshotsDisplay();
+            showCustomNotification('Snapshot deleted successfully!', 'success');
+        }
+        
+        function clearAllSnapshots() {
+            if (snapshots.length === 0) {
+                showCustomNotification('No snapshots to clear.', 'warning');
+                return;
+            }
+            
+            if (confirm('Clear all snapshots? This action cannot be undone.')) {
+                snapshots = [];
+                localStorage.removeItem('savingsSnapshots');
+                updateSnapshotsDisplay();
+                showCustomNotification('All snapshots have been cleared.', 'success');
+            }
+        }
+        
+        // Make functions available globally for onclick handlers
+        window.viewSnapshot = viewSnapshot;
+        window.restoreSnapshot = restoreSnapshot;
+        window.deleteSnapshot = deleteSnapshot;
         
         function calculateInterest() {
             try {
@@ -2059,6 +3004,29 @@
             
             // Enable save button
             saveAmountBtn.disabled = false;
+            
+            // Add copy button to results
+            addCopyButtonToResults();
+        }
+        
+        function addCopyButtonToResults() {
+            // Remove existing copy button if any
+            const existingCopyBtn = resultsContent.querySelector('.copy-results-btn');
+            if (existingCopyBtn) {
+                existingCopyBtn.remove();
+            }
+            
+            // Create copy button
+            const copyResultsBtn = document.createElement('button');
+            copyResultsBtn.className = 'btn copy-results-btn copy-btn';
+            copyResultsBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Results';
+            
+            // Add to button group
+            const buttonGroup = resultsContent.querySelector('.button-group');
+            if (buttonGroup) {
+                copyResultsBtn.addEventListener('click', copyCurrentCalculation);
+                buttonGroup.appendChild(copyResultsBtn);
+            }
         }
         
         function updateAccountInfo(accountInfo) {
@@ -2152,7 +3120,7 @@
         
         function saveCurrentAmount() {
             if (!currentCalculation) {
-                alert('Please calculate an amount first before saving.');
+                showCustomNotification('Please calculate an amount first before saving.', 'warning');
                 return;
             }
             
@@ -2197,7 +3165,7 @@
             updateAccountsDisplay();
             
             // Show confirmation
-            alert(`Successfully added ₹${formatIndianNumber(amountToSave)} to your savings!`);
+            showCustomNotification(`Successfully added ₹${formatIndianNumber(amountToSave)} to your savings!`, 'success');
         }
         
         function updateAccounts(savingsItem) {
@@ -2231,6 +3199,86 @@
             
             // Save accounts to localStorage
             localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+        }
+        
+        function updateSavingsDisplay() {
+            // Calculate total savings
+            const total = savings.reduce((sum, item) => sum + item.amount, 0);
+            
+            // Update total savings display
+            totalSavingsEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(total)}`;
+            
+            // Update savings list
+            if (savings.length === 0) {
+                noSavingsMessage.style.display = 'block';
+                savingsListEl.innerHTML = '';
+                savingsListEl.appendChild(noSavingsMessage);
+            } else {
+                noSavingsMessage.style.display = 'none';
+                
+                // Clear and rebuild savings list
+                savingsListEl.innerHTML = '';
+                
+                // Add each savings item
+                savings.forEach(item => {
+                    const savingsItemEl = document.createElement('div');
+                    savingsItemEl.className = 'savings-item fade-in';
+                    
+                    // Create account info display if available
+                    let accountInfoHtml = '';
+                    if (item.accountInfo && (item.accountInfo.accountNumber || item.accountInfo.accountType)) {
+                        accountInfoHtml = `
+                            <div class="savings-account-info">
+                                ${item.accountInfo.accountNumber ? `<span>Acc: ${item.accountInfo.accountNumber}</span>` : ''}
+                                ${item.accountInfo.accountType ? `<span>${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}</span>` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    savingsItemEl.innerHTML = `
+                        <div class="savings-details">
+                            <h4>${item.description}</h4>
+                            ${accountInfoHtml}
+                            <div class="savings-date">Saved on: ${item.date}</div>
+                        </div>
+                        <div class="savings-amount">
+                            <span class="rupee-symbol">₹</span>${formatIndianNumber(item.amount)}
+                        </div>
+                    `;
+                    
+                    // Add copy button to each savings item
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-item-btn';
+                    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyButton.title = 'Copy item details';
+                    
+                    copyButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copySavingsItem(item.id);
+                    });
+                    
+                    copyButton.addEventListener('mouseenter', () => {
+                        copyButton.style.background = 'rgba(67, 97, 238, 0.1)';
+                    });
+                    
+                    copyButton.addEventListener('mouseleave', () => {
+                        copyButton.style.background = 'transparent';
+                    });
+                    
+                    savingsItemEl.appendChild(copyButton);
+                    
+                    // Add click to delete functionality
+                    savingsItemEl.addEventListener('click', (e) => {
+                        if (!e.target.closest('.copy-item-btn')) {
+                            if (confirm('Remove this savings item?')) {
+                                removeSavingsItem(item.id);
+                            }
+                        }
+                    });
+                    
+                    savingsListEl.appendChild(savingsItemEl);
+                });
+            }
         }
         
         function updateAccountsDisplay() {
@@ -2281,9 +3329,32 @@
                         </div>
                     `;
                     
-                    // Add click event to view account details
-                    accountCard.addEventListener('click', () => {
-                        viewAccountDetails(account);
+                    // Add copy button to each account card
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-account-btn';
+                    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyButton.title = 'Copy account details';
+                    
+                    copyButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copyAccountDetails(account.id);
+                    });
+                    
+                    copyButton.addEventListener('mouseenter', () => {
+                        copyButton.style.background = 'rgba(255, 107, 107, 0.1)';
+                    });
+                    
+                    copyButton.addEventListener('mouseleave', () => {
+                        copyButton.style.background = 'transparent';
+                    });
+                    
+                    accountCard.appendChild(copyButton);
+                    
+                    // Add click to view account details
+                    accountCard.addEventListener('click', (e) => {
+                        if (!e.target.closest('.copy-account-btn')) {
+                            viewAccountDetails(account);
+                        }
                     });
                     
                     accountsGrid.appendChild(accountCard);
@@ -2292,102 +3363,27 @@
         }
         
         function viewAccountDetails(account) {
-            // Create a modal or detailed view for account
             const accountTypeName = accountTypeNames[account.accountType] || account.accountType;
             
-            let detailsHtml = `
-                <h3>${accountTypeName}</h3>
-                <p><strong>Account Number:</strong> ${account.accountNumber}</p>
-                <p><strong>Bank/Institution:</strong> ${account.bankName || 'Not specified'}</p>
-                <p><strong>Total Balance:</strong> ₹${formatIndianNumber(account.totalBalance)}</p>
-                <p><strong>Number of Investments:</strong> ${account.investments.length}</p>
-                <hr>
-                <h4>Investment Details:</h4>
-            `;
+            let detailsHtml = `Account: ${account.accountNumber}\n`;
+            detailsHtml += `Type: ${accountTypeName}\n`;
+            detailsHtml += `Total Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+            detailsHtml += `Investments: ${account.investments.length}\n\n`;
             
-            account.investments.forEach((investment, index) => {
-                detailsHtml += `
-                    <div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-                        <p><strong>Investment ${index + 1}:</strong> ${investment.description}</p>
-                        <p><strong>Amount:</strong> ₹${formatIndianNumber(investment.amount)}</p>
-                        <p><strong>Date Saved:</strong> ${investment.date}</p>
-                    </div>
-                `;
-            });
-            
-            alert(detailsHtml);
+            showCustomNotification(`Account details:\n${detailsHtml}`, 'success');
         }
         
-        function updateSavingsDisplay() {
-            // Calculate total savings
-            const total = savings.reduce((sum, item) => sum + item.amount, 0);
-            
-            // Update total savings display
-            totalSavingsEl.innerHTML = `<span class="rupee-symbol">₹</span>${formatIndianNumber(total)}`;
-            
-            // Update savings list
-            if (savings.length === 0) {
-                noSavingsMessage.style.display = 'block';
-                savingsListEl.innerHTML = '';
-                savingsListEl.appendChild(noSavingsMessage);
-            } else {
-                noSavingsMessage.style.display = 'none';
-                
-                // Clear and rebuild savings list
-                savingsListEl.innerHTML = '';
-                
-                // Add each savings item
-                savings.forEach(item => {
-                    const savingsItemEl = document.createElement('div');
-                    savingsItemEl.className = 'savings-item fade-in';
-                    
-                    // Create account info display if available
-                    let accountInfoHtml = '';
-                    if (item.accountInfo && (item.accountInfo.accountNumber || item.accountInfo.accountType)) {
-                        accountInfoHtml = `
-                            <div class="savings-account-info">
-                                ${item.accountInfo.accountNumber ? `<span>Acc: ${item.accountInfo.accountNumber}</span>` : ''}
-                                ${item.accountInfo.accountType ? `<span>${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}</span>` : ''}
-                            </div>
-                        `;
-                    }
-                    
-                    savingsItemEl.innerHTML = `
-                        <div class="savings-details">
-                            <h4>${item.description}</h4>
-                            ${accountInfoHtml}
-                            <div class="savings-date">Saved on: ${item.date}</div>
-                        </div>
-                        <div class="savings-amount">
-                            <span class="rupee-symbol">₹</span>${formatIndianNumber(item.amount)}
-                        </div>
-                    `;
-                    
-                    // Add delete button functionality
-                    savingsItemEl.addEventListener('click', (e) => {
-                        if (confirm('Remove this savings item?')) {
-                            removeSavingsItem(item.id);
-                        }
-                    });
-                    
-                    savingsListEl.appendChild(savingsItemEl);
-                });
-            }
-        }
-        
-        function removeSavingsItem(id) {
-            // Find the item to remove
-            const itemIndex = savings.findIndex(item => item.id === id);
+        function removeSavingsItem(itemId) {
+            // Remove from savings array
+            const itemIndex = savings.findIndex(item => item.id === itemId);
             if (itemIndex === -1) return;
             
-            const item = savings[itemIndex];
-            
-            // Remove from savings array
+            const removedItem = savings[itemIndex];
             savings.splice(itemIndex, 1);
             
-            // Update accounts if item has account info
-            if (item.accountInfo) {
-                updateAccountAfterRemoval(item);
+            // Update accounts if this item had account info
+            if (removedItem.accountInfo) {
+                updateAccountAfterItemRemoval(removedItem);
             }
             
             // Save to localStorage
@@ -2396,10 +3392,12 @@
             // Update displays
             updateSavingsDisplay();
             updateAccountsDisplay();
+            
+            showCustomNotification('Savings item removed successfully!', 'success');
         }
         
-        function updateAccountAfterRemoval(item) {
-            const accountInfo = item.accountInfo;
+        function updateAccountAfterItemRemoval(removedItem) {
+            const accountInfo = removedItem.accountInfo;
             if (!accountInfo) return;
             
             // Find the account
@@ -2411,121 +3409,363 @@
             if (accountIndex !== -1) {
                 // Remove the investment from the account
                 const account = accounts[accountIndex];
-                const investmentIndex = account.investments.findIndex(inv => inv.id === item.id);
+                account.investments = account.investments.filter(inv => inv.id !== removedItem.id);
                 
-                if (investmentIndex !== -1) {
-                    // Remove the investment
-                    account.investments.splice(investmentIndex, 1);
-                    
-                    // Recalculate total balance
-                    account.totalBalance = account.investments.reduce((sum, inv) => sum + inv.amount, 0);
-                    
-                    // Update last updated timestamp
-                    account.lastUpdated = new Date().toISOString();
-                    
-                    // Remove account if no investments left
-                    if (account.investments.length === 0) {
-                        accounts.splice(accountIndex, 1);
-                    }
-                    
-                    // Save accounts to localStorage
-                    localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
+                // Recalculate total balance
+                account.totalBalance = account.investments.reduce((sum, inv) => sum + inv.amount, 0);
+                
+                // Update last updated timestamp
+                account.lastUpdated = new Date().toISOString();
+                
+                // Remove account if no investments left
+                if (account.investments.length === 0) {
+                    accounts.splice(accountIndex, 1);
                 }
+                
+                // Save accounts to localStorage
+                localStorage.setItem('savingsAccounts', JSON.stringify(accounts));
             }
         }
         
         function clearAllSavings() {
             if (savings.length === 0) {
-                alert('No savings to clear.');
+                showCustomNotification('No savings to clear.', 'warning');
                 return;
             }
             
-            if (confirm('Are you sure you want to clear all savings? This action cannot be undone.')) {
-                // Clear savings array
+            if (confirm('Clear all savings? This action cannot be undone.')) {
                 savings = [];
-                
-                // Clear accounts array
                 accounts = [];
-                
-                // Remove from localStorage
                 localStorage.removeItem('compoundInterestSavingsINR');
                 localStorage.removeItem('savingsAccounts');
-                
-                // Update displays
                 updateSavingsDisplay();
                 updateAccountsDisplay();
-                
-                alert('All savings and accounts have been cleared.');
+                showCustomNotification('All savings cleared successfully!', 'success');
             }
         }
         
         function resetForm() {
-            // Reset all input values
-            principalAmountInput.value = 10000;
-            interestRateInput.value = 7.5;
+            // Reset form fields
+            document.getElementById('interestForm').reset();
+            
+            // Reset sliders
             rateSlider.value = 7.5;
             rateValue.textContent = '7.5%';
-            
-            principalInterestInput.value = 10000;
-            maturityAmountInterestInput.value = 15000;
-            
-            maturityAmountPrincipalInput.value = 15000;
-            interestRatePrincipalInput.value = 7.5;
             rateSliderPrincipal.value = 7.5;
             rateValuePrincipal.textContent = '7.5%';
             
-            principalCurrentInput.value = 10000;
-            maturityAmountCurrentInput.value = 15000;
-            
-            // Reset account fields
-            accountNumberInput.value = '';
-            accountTypeSelect.value = '';
-            bankNameInput.value = '';
-            accountFields.classList.remove('show');
-            const arrow = accountToggle.querySelector('.toggle-arrow');
-            arrow.classList.remove('open');
+            // Reset dates to current and next year
+            const today = new Date();
+            const oneYearLater = new Date();
+            oneYearLater.setFullYear(today.getFullYear() + 1);
             
             startDateInput.value = formatDate(today);
             maturityDateInput.value = formatDate(oneYearLater);
-            compoundFrequencySelect.value = 12;
             
-            // Reset to default mode
-            modeButtons.forEach(button => button.classList.remove('active'));
-            document.querySelector('.mode-btn[data-mode="amount"]').classList.add('active');
-            currentMode = 'amount';
+            // Close account fields if open
+            const arrow = accountToggle.querySelector('.toggle-arrow');
+            arrow.classList.remove('open');
+            accountFields.classList.remove('show');
             
-            // Show correct form content
-            modeContents.forEach(content => {
-                if (content.id === 'modeAmount') {
-                    content.classList.remove('hidden');
-                } else {
-                    content.classList.add('hidden');
-                }
-            });
-            
-            // Update descriptions
-            modeDescription.textContent = modeDescriptions[currentMode];
-            modeIndicator.innerHTML = modeIndicators[currentMode];
-            resultTitle.textContent = resultTitles[currentMode];
-            resultIcon.className = resultIcons[currentMode];
-            
-            // Hide current value card and progress bar
-            currentValueCard.style.display = 'none';
-            accountDetailsCard.style.display = 'none';
-            mainResultCard.classList.remove('current-result');
-            mainResultCard.classList.add('main-result');
-            progressSection.style.display = 'none';
-            
-            // Hide results
+            // Clear results
             clearResults();
+            
+            showCustomNotification('Form reset successfully!', 'success');
         }
         
-        // Calculate on page load to show example
-        window.addEventListener('load', () => {
+        // COPY FEATURES FUNCTIONS
+        
+        // 1. Copy Individual Savings Item
+        function copySavingsItem(itemId) {
+            const item = savings.find(item => item.id === itemId);
+            if (!item) return;
+            
+            let text = `SAVINGS ITEM DETAILS\n`;
+            text += '='.repeat(40) + '\n';
+            text += `Description: ${item.description}\n`;
+            text += `Amount: ₹${formatIndianNumber(item.amount)}\n`;
+            text += `Saved Date: ${item.date}\n`;
+            
+            if (item.calculationDetails) {
+                const calc = item.calculationDetails;
+                text += '\nCALCULATION DETAILS:\n';
+                text += `- Mode: ${calc.mode}\n`;
+                text += `- Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `- Interest Rate: ${calc.interestRate?.toFixed(2) || 'N/A'}%\n`;
+                text += `- Period: ${calc.years} years\n`;
+                text += `- Compounding: ${calc.compoundingFrequency}\n`;
+                text += `- Dates: ${formatDisplayDate(calc.startDate)} to ${formatDisplayDate(calc.maturityDate)}\n`;
+            }
+            
+            if (item.accountInfo) {
+                text += '\nACCOUNT INFORMATION:\n';
+                if (item.accountInfo.accountNumber) {
+                    text += `- Account Number: ${item.accountInfo.accountNumber}\n`;
+                }
+                if (item.accountInfo.accountType) {
+                    text += `- Account Type: ${accountTypeNames[item.accountInfo.accountType] || item.accountInfo.accountType}\n`;
+                }
+                if (item.accountInfo.bankName) {
+                    text += `- Bank Name: ${item.accountInfo.bankName}\n`;
+                }
+            }
+            
+            text += '\nCopied from Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Savings item copied to clipboard!');
+        }
+        
+        // 2. Copy All Savings Summary
+        function copyAllSavingsSummary() {
+            if (savings.length === 0) {
+                showCustomNotification('No savings to copy.', 'warning');
+                return;
+            }
+            
+            const total = savings.reduce((sum, item) => sum + item.amount, 0);
+            const totalAccounts = accounts.length;
+            
+            let text = `SAVINGS SUMMARY - ${formatDateTime(new Date())}\n`;
+            text += '='.repeat(50) + '\n\n';
+            text += `TOTAL SAVINGS: ₹${formatIndianNumber(total)}\n`;
+            text += `Total Items: ${savings.length}\n`;
+            text += `Total Accounts: ${totalAccounts}\n\n`;
+            
+            // Add accounts summary
+            if (accounts.length > 0) {
+                text += 'ACCOUNTS SUMMARY:\n';
+                text += '-'.repeat(30) + '\n';
+                accounts.forEach((account, index) => {
+                    const typeName = accountTypeNames[account.accountType] || account.accountType;
+                    text += `${index + 1}. ${typeName}\n`;
+                    text += `   Account: ${account.accountNumber}\n`;
+                    text += `   Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+                    text += `   Investments: ${account.investments.length}\n\n`;
+                });
+            }
+            
+            // Add recent savings
+            text += 'RECENT SAVINGS (Last 10 items):\n';
+            text += '-'.repeat(30) + '\n';
+            const recentSavings = savings.slice(-10).reverse();
+            recentSavings.forEach((item, index) => {
+                text += `${index + 1}. ${item.description}\n`;
+                text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                text += `   Date: ${item.date}\n\n`;
+            });
+            
+            text += '\nGenerated by Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Savings summary copied to clipboard!');
+        }
+        
+        // 3. Copy Account Details
+        function copyAccountDetails(accountId) {
+            const account = accounts.find(acc => acc.id === accountId);
+            if (!account) return;
+            
+            const typeName = accountTypeNames[account.accountType] || account.accountType;
+            
+            let text = `ACCOUNT DETAILS\n`;
+            text += '='.repeat(40) + '\n';
+            text += `Account Type: ${typeName}\n`;
+            text += `Account Number: ${account.accountNumber}\n`;
+            text += `Bank/Institution: ${account.bankName || 'Not specified'}\n`;
+            text += `Total Balance: ₹${formatIndianNumber(account.totalBalance)}\n`;
+            text += `Total Investments: ${account.investments.length}\n`;
+            text += `Last Updated: ${formatDisplayDate(new Date(account.lastUpdated))}\n\n`;
+            
+            text += 'INVESTMENTS IN THIS ACCOUNT:\n';
+            text += '-'.repeat(30) + '\n';
+            account.investments.forEach((item, index) => {
+                text += `${index + 1}. ${item.description}\n`;
+                text += `   Amount: ₹${formatIndianNumber(item.amount)}\n`;
+                text += `   Date: ${formatDisplayDate(new Date(item.calculationDetails?.calculatedAt || item.date))}\n`;
+                
+                if (item.calculationDetails) {
+                    const calc = item.calculationDetails;
+                    text += `   Period: ${calc.years} years at ${calc.interestRate?.toFixed(2) || 'N/A'}%\n`;
+                }
+                text += '\n';
+            });
+            
+            text += 'Copied from Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Account details copied to clipboard!');
+        }
+        
+        // 4. Copy Current Calculation Results
+        function copyCurrentCalculation() {
+            if (!currentCalculation) {
+                showCustomNotification('No calculation results to copy. Please calculate first.', 'warning');
+                return;
+            }
+            
+            const calc = currentCalculation;
+            
+            let text = `CALCULATION RESULTS\n`;
+            text += '='.repeat(40) + '\n';
+            text += `Calculation Mode: ${resultTitles[calc.mode]}\n`;
+            text += `Calculation Date: ${calc.calculatedAt}\n\n`;
+            
+            if (calc.mode === 'amount') {
+                text += `Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Investment Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n\n`;
+                text += `MATURITY AMOUNT: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Interest Earned: ₹${formatIndianNumber(calc.interestEarned)}\n`;
+            } 
+            else if (calc.mode === 'interest') {
+                text += `Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Target Amount: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Required Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Investment Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n`;
+            }
+            else if (calc.mode === 'principal') {
+                text += `Target Amount: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Required Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Investment Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n`;
+            }
+            else if (calc.mode === 'current') {
+                text += `Principal: ₹${formatIndianNumber(calc.principal)}\n`;
+                text += `Maturity Amount: ₹${formatIndianNumber(calc.amount)}\n`;
+                text += `Implied Interest Rate: ${calc.interestRate.toFixed(2)}%\n`;
+                text += `Compounding: ${calc.compoundingFrequency}\n`;
+                text += `Total Period: ${calc.years} years\n`;
+                text += `Start Date: ${formatDisplayDate(calc.startDate)}\n`;
+                text += `Maturity Date: ${formatDisplayDate(calc.maturityDate)}\n\n`;
+                text += `CURRENT VALUE: ₹${formatIndianNumber(calc.currentValue)}\n`;
+                text += `Interest Earned So Far: ₹${formatIndianNumber(calc.interestEarnedSoFar)}\n`;
+                text += `Progress: ${calc.progressPercentage}%\n`;
+                text += `Time Elapsed: ${calc.elapsedDays} days\n`;
+                text += `Time Remaining: ${calc.remainingDays} days\n`;
+            }
+            
+            if (calc.accountInfo) {
+                text += '\nACCOUNT INFORMATION:\n';
+                if (calc.accountInfo.accountNumber) {
+                    text += `- Account Number: ${calc.accountInfo.accountNumber}\n`;
+                }
+                if (calc.accountInfo.accountType) {
+                    text += `- Account Type: ${calc.accountInfo.accountTypeName || calc.accountInfo.accountType}\n`;
+                }
+                if (calc.accountInfo.bankName) {
+                    text += `- Bank Name: ${calc.accountInfo.bankName}\n`;
+                }
+            }
+            
+            text += '\nGenerated by Advanced Compound Interest Calculator';
+            
+            copyToClipboardWithNotification(text, 'Calculation results copied to clipboard!');
+        }
+        
+        // 5. Enhanced Copy to Clipboard with Better Notification
+        function copyToClipboardWithNotification(text, message) {
+            navigator.clipboard.writeText(text).then(() => {
+                showCustomNotification(message, 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCustomNotification(message, 'success');
+            });
+        }
+        
+        // 6. Show Custom Notification
+        function showCustomNotification(message, type = 'success') {
+            // Remove existing notification if any
+            const existingNotification = document.querySelector('.custom-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `custom-notification ${type}`;
+            
+            let icon = 'fa-check-circle';
+            
+            if (type === 'error') {
+                icon = 'fa-exclamation-circle';
+            } else if (type === 'warning') {
+                icon = 'fa-exclamation-triangle';
+            }
+            
+            notification.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
             setTimeout(() => {
-                calculateInterest();
-            }, 500);
-        });
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Animate out after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100px)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // 7. Initialize Copy Features
+        function initializeCopyFeatures() {
+            // Add quick copy buttons to savings section
+            addQuickCopyButtons();
+            
+            // Add keyboard shortcut (Ctrl+Shift+C for copy all)
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                    e.preventDefault();
+                    const text = generateTextExport();
+                    copyToClipboardWithNotification(text, 'All savings data copied to clipboard! (Keyboard shortcut used)');
+                }
+            });
+        }
+        
+        // 8. Add Quick Copy Buttons to Savings Section Header
+        function addQuickCopyButtons() {
+            quickCopyButtons.innerHTML = '';
+            
+            // Create Copy Summary Button
+            const copySummaryBtn = document.createElement('button');
+            copySummaryBtn.className = 'btn copy-btn';
+            copySummaryBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Summary';
+            copySummaryBtn.addEventListener('click', copyAllSavingsSummary);
+            
+            // Create Copy All Button
+            const copyAllBtn = document.createElement('button');
+            copyAllBtn.className = 'btn copy-btn';
+            copyAllBtn.innerHTML = '<i class="fas fa-copy"></i> Copy All';
+            copyAllBtn.addEventListener('click', () => {
+                const text = generateTextExport();
+                copyToClipboardWithNotification(text, 'All savings data copied to clipboard!');
+            });
+            
+            quickCopyButtons.appendChild(copySummaryBtn);
+            quickCopyButtons.appendChild(copyAllBtn);
+        }
     </script>
 </body>
 </html>
